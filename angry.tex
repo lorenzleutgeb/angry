@@ -1,0 +1,76 @@
+\documentclass{llncs}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{hyperref}
+
+% Needs splncs03.bst via Springer
+\bibliographystyle{splncs03}
+
+\usepackage{amsmath, amssymb} % For \flalign, \top, ...
+\usepackage[ruled,linesnumbered]{algorithm2e}
+
+\usepackage[table,usenames,dvipsnames]{xcolor}
+\usepackage{nicefrac,xspace,csquotes}
+
+\newcommand{\fail}{\mathrm{not } \ \xspace}
+%\newcommand{\from}{\mathrm{\ \xspace :- \ \xspace}}
+\newcommand{\from}{\ensuremath{\leftarrow}}
+
+\newcommand{\entails}{\models}
+
+% Least model (of a Horn program).
+\newcommand{\lm}{\mathrm{lm}}
+
+% Set of stable models (of a program).
+\newcommand{\stm}{\mathrm{STM}}
+\newcommand{\sol}{\mathrm{Sol}}
+\newcommand{\compl}{\mathrm{Co}}
+\newcommand{\groundext}{\mathrm{Gr}}
+\newcommand{\defense}{\mathrm{Def}_F}
+
+% Entails according to well founded semantics.
+\newcommand{\wf}{\ensuremath{\entails_{wf}}}
+
+% Entails according to stable model semantics using brave reasoning
+\newcommand{\brave}{\ensuremath{\entails_{st}^b}}
+
+% Entails according to stable model semantics using cautious reasoning
+\newcommand{\caut}{\ensuremath{\entails_{st}^c}}
+
+% Selective Linear Definite-clause with Negation as Failure
+\newcommand{\sldnf}{\ensuremath{\vdash_{NF}}}
+
+\newcommand{\universe}{\mathcal{U}}
+\newcommand{\afs}{\mathcal{F}}
+\newcommand{\attacks}{\rightsquigarrow}
+
+\title{Complex Predicates~vs.~Complex Objects}
+\subtitle{A Case Study on Answer Set Programming\\ for Implementing Artificial Agents}
+\author{Filippo~De~Bortoli \and Lorenz~Leutgeb \and Cosimo~Persia}
+\institute{International Center for Computational Logic, TU Dresden\\ \email{\{filippo.de\_bortoli,lorenz.leutgeb,cosimo.persia\}@mailbox.tu-dresden.de}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Angry Birds is a 2D video game in which objects are hurled at targets using a slingshot in order to score points. The game sparked interest in the research community and a variety of agents have been developed.
+In the fashion of a case study, this work considers on of these agents, namely Angry-HEX, which reasons about playing strategy and tactics using \emph{Answer Set Programming} (ASP), a well established formalism for \emph{Knowledge Representation and Reasoning} (KRR).
+In order to interface with the game (a web application), and to integrate simulation of physics into the reasoning process, the implementation of Angry-HEX makes use of both \emph{higher-order} atoms as well as \emph{external atoms}.
+We argue that one of the motivations to use higher-order atoms is imposed by the restrictions of the underlying ASP system. In particular, only domain objects of primitive data types can be used to model complex objects that are relevant in the context of the game.
+Consequently we adapt Angry-HEX for a setting where higher order predicates have been traded for more complex objects. The resulting agent is dubbed Angry-Alpha.
+\end{abstract}
+
+\begin{center}
+\begin{tabular}{p{0.2\textwidth}p{0.8\textwidth}}
+\bfseries{Keywords:} & Answer Set Programming (ASP), HEX-programs, Knowledge Representation and Reasoning (KRR), Modelling\\
+\end{tabular}
+\end{center}
+
+\section{Introduction}
+\label{intro}
+
+\bibliography{ref}
+\end{document}
