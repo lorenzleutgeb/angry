@@ -14,6 +14,7 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{hyperref}
+\usepackage{graphicx}
 
 % Needs splncs03.bst via Springer
 \bibliographystyle{splncs03}
@@ -81,35 +82,11 @@ Consequently we adapt \ah for a setting where higher order predicates have been 
 \end{tabular}
 \end{center}
 
-\section{Introduction}
-\label{sec:intro}
-
-% Cosimo
-
-\section{Preliminaries}
-\label{sec:prelim}
-
-% Cosimo
-
-% Introduce ASP Syntax and Semantics
-% Extend ASP Syntax and Semantics to HEX Programs (based on \cite{hex})
-
-\section{The \ah agent}
-\label{sec:agent}
-
-% Describe the Angry Birds scenario/setting and how the agent works
-
-\section{Complex Predicates~vs.~Complex Objects}
-\label{sec:main}
-
-% How did we come up with the translation? Discovery of the translation.
-% End to end example of translation for a predicate in \ah
-
-\section{Implementation}
-\label{sec:impl}
-
-\section{Conclusion}
-\label{sec:conc}
+\include{introduction}
+\include{preliminaries}
+\include{agent}
+\include{main}
+\include{conclusion}
 
 \bibliography{ref}
 \end{document}

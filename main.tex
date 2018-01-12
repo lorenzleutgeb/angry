@@ -1,0 +1,19 @@
+\section{Complex Predicates~vs.~Complex Objects}
+\label{sec:main}
+
+In this section we present how a specific class occurences of higher order predicates can be translated to first order by introducing more complex terms.
+
+For example, consider the following rule taken from the tactics of \ah:
+
+% https://github.com/DeMaCS-UNICAL/Angry-HEX/blob/4ea72273518dfde6240ece9dadea927fd1b79c3c/dlv/tactic.dlv#L133
+
+$$ canPush(o_a,o_b) :- \&canPush[objects,hills](o_a,o_b). $$
+
+Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the object $o_b$, which requires some minimum distance and geometric range.
+
+Note that $objects$ and $hills$ are predicates, and in turn $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the game respectively.
+
+Since 
+
+% How did we come up with the translation? Discovery of the translation.
+% End to end example of translation for a predicate in \ah
