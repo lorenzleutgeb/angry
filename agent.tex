@@ -1,3 +1,65 @@
 \section{The \ah agent}
 \label{sec:agent}
 % Describe the Angry Birds scenario/setting and how the agent works
+\ah is an artificial player for Angry
+Birds, which reasoning with respect to
+the world knowledge is carried out by
+means of computing the answer set of a
+HEX-program.
+It originated as a re-implementation of
+the naive agent provided by the organizers
+of the Angry Birds AI Competition~\cite{angryAI},
+with general improvements on main components
+of it and a complete rewriting of the
+\emph{planning} component as a collection
+of HEX-programs.
+
+In this section, an overview of the \ah
+agent will be presented, with a focus on
+the declarative part and its features. 
+For a full and detailed explanation of
+the implementing process, of the agent
+layout and additional considerations on
+performance, the reader can refer to~\cite{angryhex}.
+
+\subsection{Base Framework}
+
+The Base Framework, upon which \ah is built,
+consists of several modules, dealing with
+different aspects of the game, from 
+the interaction with the game environment,
+provided by the \emph{Angry Birds} browser
+extension and the \emph{Proxy} component of
+the \emph{Game Server}, to the communication
+between the agent client and the server,
+mediated through the server/client \emph{Communication Port};
+the following list describes the parts of main interest:
+\begin{description}
+    \item[Vision] This module segments the images
+    captured from the game environment, returning
+    the minimum bounding rectangles of essential
+    objects, as well as relevant information,
+    like the types of birds available, the material
+    of which bricks are composed and where pigs are placed.
+    \item[Trajectory] This component estimates
+    the trajectory followed by a bird after being
+    released; here, orientation and distance of 
+    the release point with respect to the slingshot
+    are taken into account.
+    \item[Planning] also called \emph{AI agent} in the
+    original setting, this part delivers the order
+    of the played levels, the choice of birds to use
+    and other strategy-related choices.
+\end{description}
+
+\subsection{Interaction with HEX-programs}
+
+The main contribution brought by \ah is
+found in the planning component, which has
+been rewritten as a collection of HEX-programs.
+These are partitioned in two layers, namely
+the \emph{Tactic} and the \emph{Strategy} layer.
+Then, these programs are feeded to the
+\textsc{dlv-hex} solver~\cite{dlvHEX},
+which returns answer sets containing
+information about the next moves in the game.
