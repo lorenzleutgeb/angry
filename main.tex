@@ -1,7 +1,7 @@
 \section{Complex Predicates~vs.~Complex Objects}
 \label{sec:main}
 
-In this section we present how a specific class occurences of higher order predicates can be translated to first order by introducing more complex terms.
+In this section we present how a specific class of occurences of higher order predicates can be translated to first order by introducing more complex terms.
 
 For example, consider the following rule taken from the tactics of \ah:
 
@@ -9,11 +9,26 @@ For example, consider the following rule taken from the tactics of \ah:
 
 $$ canPush(o_a,o_b) :- \&canPush[objects,hills](o_a,o_b). $$
 
-Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the object $o_b$, which requires some minimum distance and geometric range.
+Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the object $o_b$ (which requires some minimum distance and geometric range).
 
-Note that $objects$ and $hills$ are predicates, and in turn $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the game respectively.
+Note that $objects$ and $hills$ are predicates, and consequently $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the virtual environment respectively.
 
-Since 
+In \ah the reasoning process is only invoked after recognizing all objects in the game environment, so for evaluation answer sets wrt.~$canPsuh$, the objects for which $objects$ and $hills$ hold do not change. They are facts.
+
+Since $objects$ and $hills$ characterize a set, we may substitute them for $O$ and $H$, the set of objects and the set of hills respectively.
+
+Note that the ASP system that \ah relies on does not support data structures like sets as objects, but only symbolic constants, strings and positive integers.
+
+By lifting this restriction, we may translate the rule into first order:
+
+$$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). $$
+
+Here, the role of the predicates $objects$ and $hills$ is a different one. Their interpretation only contains one complex object, a set.
+
+Applying this translation to all rules that make use of higher order predicates yields a program in first order.
+
+The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects implements Set} as well as a list of objects (\textt{List<ABObject>}) may map to $O$.
+
 
 % How did we come up with the translation? Discovery of the translation.
 % End to end example of translation for a predicate in \ah
