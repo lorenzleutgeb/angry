@@ -13,7 +13,7 @@ Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the
 
 Note that $objects$ and $hills$ are predicates, and consequently $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the virtual environment respectively.
 
-In \ah the reasoning process is only invoked after recognizing all objects in the game environment, so for evaluation answer sets wrt.~$canPsuh$, the objects for which $objects$ and $hills$ hold do not change. They are facts.
+In \ah the reasoning process is only invoked after recognizing all objects in the game environment, so for evaluation answer sets wrt.~$canPush$, the objects for which $objects$ and $hills$ hold do not change. They are facts.
 
 Since $objects$ and $hills$ characterize a set, we may substitute them for $O$ and $H$, the set of objects and the set of hills respectively.
 
@@ -27,7 +27,7 @@ Here, the role of the predicates $objects$ and $hills$ is a different one. Their
 
 Applying this translation to all rules that make use of higher order predicates yields a program in first order.
 
-The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects implements Set} as well as a list of objects (\textt{List<ABObject>}) may map to $O$.
+The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects implements Set} as well as a list of objects (\texttt{List<ABObject>}) may map to $O$.
 
 
 % How did we come up with the translation? Discovery of the translation.
