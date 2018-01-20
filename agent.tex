@@ -63,3 +63,22 @@ Then, these programs are feeded to the
 \textsc{dlv-hex} solver~\cite{dlvHEX},
 which returns answer sets containing
 information about the next moves in the game.
+
+The job of the \textbf{Tactic} layer is to compute optimal shots, retrieving information from the current scene in the game and using knowledge modelled by means of a HEX-program \(\mathcal{P}_{AI}\).
+The HEX-program \(\mathcal{P}_{AI}\) represents the knowledge of the agent on shootable targets, the estimates of the damage occurring when a target is hit and the priority of the targets, according to the estimated damages.
+
+The \emph{input} of the \textbf{Tactic} layer consists of the program \(\mathcal{P}_{AI}\), together with a collection \(\mathcal{S}\) of logic assertions about the scene, provided by the \emph{Vision} component.
+The \emph{output} of the layer corresponds to the \emph{answer sets} of \(\mathcal{P}_{AI} \cup \mathcal{S}\), which contain information about which target to hit and what shot is required.
+
+\emph{External atoms} are used in \(\mathcal{P}_{AI}\) mainly to outsorce physics-based simulations to a dedicated, external program and to obtain insights about possible shots, consequences of the shots and the geometry of the scene.
+
+The task of the \textbf{Strategy} layer, on the other hand, is to schedule the sequence of played levels. This layer proceeds according to the following scheme:
+\begin{enumerate}
+    \item First, all available levels are played once;
+    \item Then, each level in which the obtained scores has the greatest difference from the current best score is selected --- up to a set threshold of possible attempts;
+    \item Next, those levels where \ah scored better than the current best score, with the least difference in score, are selected (up to a certain number of attempts);
+    \item Finally, a random level is selected. 
+\end{enumerate}
+
+The \textbf{Strategy} layer keeps a track of the scores that were previously achieved and of the objects that were previously chosen as initial targets.
+Objects that were previously targetted are excluded; this ensures that the agent is going to employ a new strategy, with each new attempt on the same level.
