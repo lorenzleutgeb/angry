@@ -1,7 +1,7 @@
 \section{Preliminaries}
 \label{sec:prelim}
 
-In this section some background knowledge will be presented in order to understand our work. For a detailed explaination the interested reader is suggested to have a look at the cited papers. 
+In this section some background knowledge will be presented in order to understand our work. For a detailed explanation the interested reader is suggested to have a look at the cited papers. 
 \subsection{Declarative Programming and Prolog}
 The guiding principle of declarative programming is 
 \[ALGORITHM = LOGIC + CONTROL.\]
@@ -21,10 +21,10 @@ reverse([X|Y ], Z) \leftarrow reverse(Y, U ), append(U, [X], Z). \label{eq:2}
 instead of the rule number \ref{eq:1} in program \(P_1\), the meaning of the rule would not change but something unexpected happens dring the computation. Indeed the function reverse does not terminate because Prolog, due to the SLD-derivation, will call the reverse predicate endlessly. Moreover if we consider the program  \(P_2\):
 \begin{align}
 pig((88,34)).& \\
-easy\_taget(X) &\leftarrow pig(X), not\: difficult\_taget(X). \\ 
-difficult\_taget(X) &\leftarrow pig(X), not\: easy\_taget(X) 
+easy\_target(X) &\leftarrow pig(X), not\: difficult\_target(X). \\ 
+difficult\_target(X) &\leftarrow pig(X), not\: easy\_target(X) 
 \end{align}
-it is easy to conclude that also this program will not terminate even if we know that the intuitive models are \(\{pig((88,34)), difficult\_taget((88,34))\}\) or \\ \(\{pig((88,34)), easy\_taget((88,34))\}\).
+it is easy to conclude that also this program will not terminate even if we know that the intuitive models are \(\{pig((88,34)), difficult\_target((88,34))\}\) or \\ \(\{pig((88,34)), easy\_target((88,34))\}\).
 
 This problem force the programmer to think about what the engine prolog does in order to compute a solution but this is not in accordance to what the guiding principle of declarative programming states.
 Indeed, it is desirable that
@@ -46,9 +46,9 @@ After the reduction phase the least model \(LM(P_M)\) of \(P_M\) is computed and
 
 if we consider again the program \(P_2\), we could have the following reasonable interpretations.
 \begin{align*}
-M_1&= \{pig((88,34)), easy\_taget((88,34))\}  \\
-M_2&= \{pig((88,34)), difficult\_taget((88,34))\} \\
-M_3&= \{pig((88,34)), easy\_taget((88,34)), difficult\_taget((88,34))\} \\
+M_1&= \{pig((88,34)), easy\_target((88,34))\}  \\
+M_2&= \{pig((88,34)), difficult\_target((88,34))\} \\
+M_3&= \{pig((88,34)), easy\_target((88,34)), difficult\_target((88,34))\} \\
 M_4&= \{pig((88,34))\}
 \end{align*}
 
@@ -77,7 +77,7 @@ Traditional answer set solvers typically have a two level architecture:
 \item Model Search: The answer sets of the grounded (propositional) program \(P'\) are computed.
 \end{enumerate}
 
-There are different techniques for each of the two steps described and their presentation is out of the scope of this paper. For a more detailed explaintion \cite(bho).
+There are different techniques for each of the two steps described and their presentation is out of the scope of this paper. For a more detailed explanation \cite(bho).
 
 \subsection{Hex Programs}
 HEX programs \cite{} were introduced as a generalization of  extended logic programs under the answer set semantics. The syntax of HEX programs extend ordinary ASP programs by external atoms, which enable a bidirectional interaction between a program and external sources of computation. External atoms have a list of input parameters (terms or predicate names) and a list of output parameters. Informally, to evaluate an external atom, the reasoner passes the terms and extensions of the predicates in the input tuple to the external source associated with the external atom. The external source computes output tuples that are matched with the output list. Formally, an external atom is of the form \(\&g\:[Y]\:(X)\), where \(Y = Y_1, \dotso , Y_k\) are input parameters the set of terms, variables and predicates and \(X = X_1, \dotso , X_l \) are output terms. 
