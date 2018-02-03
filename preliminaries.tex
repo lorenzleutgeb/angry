@@ -68,7 +68,21 @@ ASP \cite{} is a declarative programming language capable of overcoming the limi
 \end{enumerate}
 as shown in Figure \ref{fig:ASP1}.
 \begin{figure}
-  \includegraphics[width=\linewidth]{f1.png}
+  \begin{center}
+    \smartdiagramset{back arrow disabled=true,%
+    uniform color list=white for 4 items,%
+    uniform arrow color=true,%
+    arrow color=gray,%
+    arrow line width=0.05cm,%
+    text width=1.8cm%
+    }
+    \smartdiagram[flow diagram:horizontal]%
+    {Problem instance \(I\),%
+    Encoding: Program \(P\),%
+    ASP Solver,%
+    Models \& Solutions}    
+  \end{center}
+  %\includegraphics[width=\linewidth]{f1.png}
   \caption{logical steps made in order to find a stable model of a program.}
   \label{fig:ASP1}
 \end{figure}
