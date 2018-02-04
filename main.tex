@@ -7,28 +7,45 @@ For example, consider the following rule taken from the tactics of \ah:
 
 % https://github.com/DeMaCS-UNICAL/Angry-HEX/blob/4ea72273518dfde6240ece9dadea927fd1b79c3c/dlv/tactic.dlv#L133
 
-$$ canPush(o_a,o_b) :- \&canPush[objects,hills](o_a,o_b). $$
+$$ canPush(o_a,o_b) :- \&canPush[objects,hills](o_a,o_b). \label{main:rule-1} $$
 
-Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the object $o_b$ (which requires some minimum distance and geometric range).
+Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the object $o_b$.
+To establish the truth of $canPush(o_a, o_b)$ spatial information, like minimum distance and geometric range of the objects, is required; this is obtained by outsourcing the computation to an external source, by means of the external predicate $\&canPush$.
+The required knowledge is given as input to $\&canPush$ by using the predicates $objects$ and $hills$: indeed, $\&canPush$ is a \emph{higher-order predicate}.
 
-Note that $objects$ and $hills$ are predicates, and consequently $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the virtual environment respectively.
+A useful observation is that the predicates $objects$ and $hills$ both represent lists: $objects$ characterizes the set of objects that are present in the current level, while $hills$ encodes the the morphological structure of the ground of the current level.
+These lists represent a form of knowledge that the agent gains before the reasoning phase.
+Indeed, in \ah the objects and the information about the world scene are first acquired by the \textbf{Vision} component, as explained in Section~\ref{sec:agent_base}; only after this phase, the \textbf{Planning} component is invoked and the reasoning process takes place.
+Thus, for the evaluation of the answer sets wrt.~$canPush$, the elements for which $objects$ and $hills$ do not vary: they are encoded as facts, in the set of assertions \(\mathcal{S}\) added to the program \(\mathcal{P}_{AI}\).
 
-In \ah the reasoning process is only invoked after recognizing all objects in the game environment, so for evaluation answer sets wrt.~$canPush$, the objects for which $objects$ and $hills$ hold do not change. They are facts.
+Once understood that $objects$ and $hills$ are representations of sets, we may pose the following question: would it be possible to replace these predicates with sets?
+That is, is there a way to have two sets $O$ and $H$, respectively the sets of objects and hills, in place of  $objects$ and $hills$ in the call to $\&canPush$?
 
-Since $objects$ and $hills$ characterize a set, we may substitute them for $O$ and $H$, the set of objects and the set of hills respectively.
+The ASP system underlying \ah does not provide support for complex data structures as objects --- thus, sets as objects are not allowed ---, but only symbolic constants, strings and natural numbers.
+By lifting such a restriction, we may be able to translate the rule~\eqref{main:rule-1}, containing a higher-order predicate, into one where only first-order predicates appear, such as:
 
-Note that the ASP system that \ah relies on does not support data structures like sets as objects, but only symbolic constants, strings and positive integers.
+$$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). \label{main:rule-2} $$
 
-By lifting this restriction, we may translate the rule into first order:
+% Note that $objects$ and $hills$ are predicates, and consequently $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the virtual environment respectively.
 
-$$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). $$
+% In \ah the reasoning process is only invoked after recognizing all objects in the game environment, so for evaluation answer sets wrt.~$canPush$, the objects for which $objects$ and $hills$ hold do not change. They are facts.
 
-Here, the role of the predicates $objects$ and $hills$ is a different one. Their interpretation only contains one complex object, a set.
+% Since $objects$ and $hills$ characterize a set, we may substitute them for $O$ and $H$, the set of objects and the set of hills respectively.
 
-Applying this translation to all rules that make use of higher order predicates yields a program in first order.
+% Note that the ASP system that \ah relies on does not support data structures like sets as objects, but only symbolic constants, strings and positive integers.
+
+% By lifting this restriction, we may translate the rule into first order:
+
+% $$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). $$
+
+Now, the predicates $objects$ and $hills$ are unary predicates with a different role: their interpretation will only contain one complex object, a set.
+Applying this kind of translation to all the rules employing higher-order predicates yields a program where only first-order predicates appear.
+
+% Here, the role of the predicates $objects$ and $hills$ is a different one. Their interpretation only contains one complex object, a set.
+
+% Applying this translation to all rules that make use of higher order predicates yields a program in first order.
 
 The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects implements Set} as well as a list of objects (\texttt{List<ABObject>}) may map to $O$.
-
 
 % How did we come up with the translation? Discovery of the translation.
 % End to end example of translation for a predicate in \ah
