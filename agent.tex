@@ -1,14 +1,14 @@
 \section{The \ah agent}
 \label{sec:agent}
 % Describe the Angry Birds scenario/setting and how the agent works
-\ah is an artificial player for Angry
-Birds, which reasoning with respect to
+\ah is an artificial player for \ab,
+which reasoning with respect to
 the world knowledge is carried out by
 means of computing the answer set of a
 HEX-program.
 It originated as a re-implementation of
 the naive agent provided by the organizers
-of the Angry Birds AI Competition~\cite{angryAI},
+of the \abc \cite{angryAI},
 with general improvements on main components
 of it and a complete rewriting of the
 \emph{planning} component as a collection
@@ -20,7 +20,7 @@ the declarative part and its features.
 For a full and detailed explanation of
 the implementing process, of the agent
 layout and additional considerations on
-performance, the reader can refer to~\cite{angryhex}.
+performance, the reader may refer to~\cite{angryhex}.
 
 \subsection{Base Framework}
 
@@ -28,7 +28,7 @@ The Base Framework, upon which \ah is built,
 consists of several modules, dealing with
 different aspects of the game, from 
 the interaction with the game environment,
-provided by the \emph{Angry Birds} browser
+provided by the \ab browser
 extension and the \emph{Proxy} component of
 the \emph{Game Server}, to the communication
 between the agent client and the server,
@@ -59,18 +59,18 @@ found in the planning component, which has
 been rewritten as a collection of HEX-programs.
 These are partitioned in two layers, namely
 the \emph{Tactic} and the \emph{Strategy} layer.
-Then, these programs are feeded to the
+Then, these programs are fed to the
 \textsc{dlv-hex} solver~\cite{dlvHEX},
 which returns answer sets containing
 information about the next moves in the game.
 
-The job of the \textbf{Tactic} layer is to compute optimal shots, retrieving information from the current scene in the game and using knowledge modelled by means of a HEX-program \(\mathcal{P}_{AI}\).
+The job of the \textbf{Tactic} layer is to compute optimal shots, retrieving information from the current scene in the game and using knowledge modeled by means of a HEX-program \(\mathcal{P}_{AI}\).
 The HEX-program \(\mathcal{P}_{AI}\) represents the knowledge of the agent on shootable targets, the estimates of the damage occurring when a target is hit and the priority of the targets, according to the estimated damages.
 
 The \emph{input} of the \textbf{Tactic} layer consists of the program \(\mathcal{P}_{AI}\), together with a collection \(\mathcal{S}\) of logic assertions about the scene, provided by the \emph{Vision} component.
 The \emph{output} of the layer corresponds to the \emph{answer sets} of \(\mathcal{P}_{AI} \cup \mathcal{S}\), which contain information about which target to hit and what shot is required.
 
-\emph{External atoms} are used in \(\mathcal{P}_{AI}\) mainly to outsorce physics-based simulations to a dedicated, external program and to obtain insights about possible shots, consequences of the shots and the geometry of the scene.
+\emph{External atoms} are used in \(\mathcal{P}_{AI}\) mainly to outsource physics-based simulations to a dedicated, external program and to obtain insights about possible shots, consequences of the shots and the geometry of the scene.
 
 The task of the \textbf{Strategy} layer, on the other hand, is to schedule the sequence of played levels. This layer proceeds according to the following scheme:
 \begin{enumerate}
@@ -81,4 +81,4 @@ The task of the \textbf{Strategy} layer, on the other hand, is to schedule the s
 \end{enumerate}
 
 The \textbf{Strategy} layer keeps a track of the scores that were previously achieved and of the objects that were previously chosen as initial targets.
-Objects that were previously targetted are excluded; this ensures that the agent is going to employ a new strategy, with each new attempt on the same level.
+Objects that were previously targeted are excluded; this ensures that the agent is going to employ a new strategy, with each new attempt on the same level.
