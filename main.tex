@@ -18,7 +18,7 @@ These collections represent a form of knowledge that the agent gains before the 
 Indeed, in \ah the objects and the information about the world scene are first acquired by the \textbf{Vision} component, as explained in Section~\ref{sec:agent_base}; only after this phase, the \textbf{Planning} component is invoked and the reasoning process takes place.
 Thus, for the evaluation of the answer sets wrt.~$canPush$, the elements for which $objects$ and $hills$ do not vary: they are encoded as facts, in the set of assertions \(\mathcal{S}\) added to the program \(\mathcal{P}_{AI}\).
 
-Once understood that $objects$ and $hills$ are representations of sets, we would pose the following question: would it be possible to replace these predicates with sets?
+Once understood that $objects$ and $hills$ are representations of sets, we may pose the following question: Would it be possible to replace these predicates with sets?
 That is, is there a way to have two sets $O$ and $H$, respectively the sets of objects and hills, in place of  $objects$ and $hills$ in the call to $\&canPush$?
 
 The ASP system underlying \ah does not provide support for complex data structures as objects --- thus, sets as objects are not allowed ---, but only symbolic constants, strings and natural numbers.
