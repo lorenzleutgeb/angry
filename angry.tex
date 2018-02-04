@@ -1,4 +1,4 @@
-\documentclass{llncs}
+\documentclass[orivec]{llncs}
 
 % TODO:
 % 10 oages
@@ -58,6 +58,8 @@
 \newcommand{\attacks}{\rightsquigarrow}
 
 \newcommand{\ah}{Angry-HEX\xspace}
+\newcommand{\ab}{Angry Birds\xspace}
+\newcommand{\abc}{Angry Birds AI Competition\xspace}
 \newcommand{\al}{Alpha\xspace}
 
 \title{Complex Predicates~vs.~Complex Objects}
@@ -70,7 +72,7 @@
 \maketitle
 
 \begin{abstract}
-Angry Birds is a 2D video game in which objects are hurled at targets using a slingshot in order to score points. The game sparked interest in the research community and a variety of agents have been developed.
+\ab is a 2D video game in which objects are hurled at targets using a slingshot in order to score points. The game sparked interest in the research community and a variety of agents have been developed.
 In the fashion of a case study, this work considers on of these agents, namely \ah, which reasons about playing strategy and tactics using \emph{Answer Set Programming} (ASP), a well established formalism for \emph{Knowledge Representation and Reasoning} (KRR).
 In order to interface with the game (a web application), and to integrate simulation of physics into the reasoning process, the implementation of \ah makes use of both \emph{higher-order} atoms as well as \emph{external atoms}.
 We argue that one of the motivations to use higher-order atoms is imposed by the restrictions of the underlying ASP system. In particular, only domain objects of primitive data types can be used to model complex objects that are relevant in the context of the game.
