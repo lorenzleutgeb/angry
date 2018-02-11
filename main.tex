@@ -31,7 +31,7 @@ Applying this kind of translation to all the rules employing higher-order predic
 \subsection{Translation}
 
 \ah has been initially implemented to work with the \textsc{dlv-hex} solver~\cite{dlvHEX}, which successfully handles higher-order predicates.
-Our ASP system of choice, \al, despite lacking this feature, extends the range of supported data structures beyond those included in \textsc{dlv-hex} --- symbolic constants, natural numbers and strings --- by allowing for terms to be interpreted as Java objects.
+Our ASP system of choice, \al (introduced in~\cite{blend}), despite lacking this feature, extends the range of supported data structures beyond those included in \textsc{dlv-hex} --- symbolic constants, natural numbers and strings --- by allowing for terms to be interpreted as Java objects.
 The proposed translation exploits this feature: if one can convert the information conveyed by the inputs of the external, higher-order predicates into Java objects, then the higher-order predicates are not necessary anymore.
 
 The first phase of the translation consists of the replacements of input predicates into Java objects, as mentioned in the previous paragraph.
