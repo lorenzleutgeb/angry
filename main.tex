@@ -6,7 +6,7 @@ In this section we present how a specific class of occurences of higher order pr
 For example, consider the following rule taken from the tactics of \ah:
 % https://github.com/DeMaCS-UNICAL/Angry-HEX/blob/4ea72273518dfde6240ece9dadea927fd1b79c3c/dlv/tactic.dlv#L133
 
-$$ canPush(o_a,o_b) :- \&canPush[objects,hills](o_a,o_b). \label{main:rule-1} $$
+$$ canPush(o_a,o_b) \leftarrow \&canPush[objects,hills](o_a,o_b) \label{main:rule-1} $$
 
 Intuitively, $canPush(o_a, o_b)$ should be true if the object $o_a$ can push the object $o_b$.
 To establish the truth of $canPush(o_a, o_b)$ spatial information, like minimum distance and geometric range of the objects, is required; this is obtained by outsourcing the computation to an external source, by means of the external predicate $\&canPush$.
@@ -23,7 +23,7 @@ That is, is there a way to have two sets $O$ and $H$, respectively the sets of o
 The ASP system underlying \ah does not provide support for complex data structures as objects --- thus, sets as objects are not allowed ---, but only symbolic constants, strings and natural numbers.
 By lifting such a restriction, we may be able to translate the rule~\eqref{main:rule-1}, containing a higher-order predicate, into one where only first-order predicates appear, such as:
 
-$$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). \label{main:rule-2} $$
+$$ canPush(o_a,o_b) \leftarrow objects(O), hills(H), \&canPush[O,H](o_a,o_b) \label{main:rule-2} $$
 
 Now, the predicates $objects$ and $hills$ are unary predicates with a different role: their interpretation will only contain one complex object, a set.
 Applying this kind of translation to all the rules employing higher-order predicates yields a program where only first-order predicates appear.
@@ -50,7 +50,7 @@ which indicates that the predicate returns a list of constant terms (of the form
 Finally, it is possible to rewrite the ASP program, eliminating all the sources of higher-order predicates.
 In our setting, the clause containing the higher-order predicate in~\eqref{main:rule-1} is replaced by the clause
 
-$$ canPush(A,B) :- world(W), \&canPush[W](A,B). \label{main:rule-3} $$
+$$ canPush(A,B) \leftarrow world(W), \&canPush[W](A,B) \label{main:rule-3} $$
 
 Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which is interpreted as a \texttt{ASPWorld} instance --- and returns a list of tuples of constant terms $(A,B)$ in which the item $A$ can effectively push the item $B$.
 % How did we come up with the translation? Discovery of the translation.
