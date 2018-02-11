@@ -4,7 +4,6 @@
 In this section we present how a specific class of occurences of higher order predicates can be translated to first order by introducing more complex terms.
 
 For example, consider the following rule taken from the tactics of \ah:
-
 % https://github.com/DeMaCS-UNICAL/Angry-HEX/blob/4ea72273518dfde6240ece9dadea927fd1b79c3c/dlv/tactic.dlv#L133
 
 $$ canPush(o_a,o_b) :- \&canPush[objects,hills](o_a,o_b). \label{main:rule-1} $$
@@ -26,45 +25,44 @@ By lifting such a restriction, we may be able to translate the rule~\eqref{main:
 
 $$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). \label{main:rule-2} $$
 
-% Note that $objects$ and $hills$ are predicates, and consequently $\&canPush$ is a higher order predicate. We observe that $objects$ and $hills$ characterize the set of objects present in the current level of the game and the structure of the ground in the virtual environment respectively.
-
-% In \ah the reasoning process is only invoked after recognizing all objects in the game environment, so for evaluation answer sets wrt.~$canPush$, the objects for which $objects$ and $hills$ hold do not change. They are facts.
-
-% Since $objects$ and $hills$ characterize a set, we may substitute them for $O$ and $H$, the set of objects and the set of hills respectively.
-
-% Note that the ASP system that \ah relies on does not support data structures like sets as objects, but only symbolic constants, strings and positive integers.
-
-% By lifting this restriction, we may translate the rule into first order:
-
-% $$ canPush(o_a,o_b) :- objects(O), hills(H), \&canPush[O,H](o_a,o_b). $$
-
 Now, the predicates $objects$ and $hills$ are unary predicates with a different role: their interpretation will only contain one complex object, a set.
 Applying this kind of translation to all the rules employing higher-order predicates yields a program where only first-order predicates appear.
 
-% Here, the role of the predicates $objects$ and $hills$ is a different one. Their interpretation only contains one complex object, a set.
-
-% Applying this translation to all rules that make use of higher order predicates yields a program in first order.
-
 \subsection{Translation}
 
-The ASP system \al allows to insert arbitrary Java objects in place of terms.
+\ah has been initially implemented to work with the \textsc{dlv-hex} solver~\cite{dlvHEX}, which successfully handles higher-order predicates.
+Our ASP system of choice, \al, despite lacking this feature, extends the range of supported data structures beyond those included in \textsc{dlv-hex} --- symbolic constants, natural numbers and strings --- by allowing for terms to be interpreted as Java objects.
+The proposed translation exploits this feature: if one can convert the information conveyed by the inputs of the external, higher-order predicates into Java objects, then the higher-order predicates are not necessary anymore.
 
-In the first stage of the translation, we replace the two sets $objects$ and $hills$, which were previously encoded as predicates, by a Java class called \texttt{ASPWorld}. Instances of this class represent a snapshot of the world, as retrieved by the agent from the game world.
-The class contains two \texttt{Collection}s, one containing Angry Birds objects (of type \texttt{ABObject}) and the other containing polygonal shapes, in place of $hills$.
+The first phase of the translation consists of the replacements of input predicates into Java objects, as mentioned in the previous paragraph.
+In our ongoing example, the two predicates $objects$ and $hills$, representing sets, are replaced by a java class called \texttt{ASPWorld}.
+Each instance of this class represents a snapshot of the world, as retrieved by the agent from the current level.
+The class contains two \texttt{Collection} variables: one is expected to contain Angry Birds objects (of type \texttt{ABObject}), while the other includes polygonal shapes, in place of $hills$.
 
-Next, the ``interpretation'' of the external predicate $\&canPush$ --- that is, how it operates on its input to return the pushable objects ---  is specified as a \texttt{@Predicate} instance with type signature
+Once that the interpretation of the input of the external predicate has been encoded as a Java class, the interpretation of the external predicate has to be defined.
+In \al, this is achieved by means of a Java method.
+For $\&canPush$, the interpretation is  is specified as a \texttt{@Predicate} instance with type signature
 \begin{center}
     \texttt{public Set<List<ConstantTerm>> canPush(ASPWorld aspWorld)}
 \end{center}
 which indicates that the predicate returns a list of constant terms (of the form \((A,B)\)), that represent the fact that \(A\) can push \(B\), after being hit.
 
-Then, the clause containing the higher-order predicate in~\eqref{main:rule-1} is replaced by the clause
+Finally, it is possible to rewrite the ASP program, eliminating all the sources of higher-order predicates.
+In our setting, the clause containing the higher-order predicate in~\eqref{main:rule-1} is replaced by the clause
 
 $$ canPush(A,B) :- world(W), \&canPush[W](A,B). \label{main:rule-3} $$
 
-Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which corresponds to a \texttt{ASPWorld} instance --- and returns a list of candidates $(A,B)$ in which the item $A$ can effectively push the item $B$.
-
-%The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects %implements Set} as well as a list of objects (\texttt{List<ABObject>}) may map to $O$.
-
+Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which is interpreted as a \texttt{ASPWorld} instance --- and returns a list of tuples of constant terms $(A,B)$ in which the item $A$ can effectively push the item $B$.
 % How did we come up with the translation? Discovery of the translation.
 % End to end example of translation for a predicate in \ah
+
+\subsection{About the second-order elimination}
+
+While one may be tempted to label this as a general technique to achieve second-order elimination, it may be useful to investigate what made the proposed conversion possible and to discuss whether it is always the case for such a translation to be appliable.
+
+% TODO: what were the eliminated predicates representing?
+% HINT: enumerations, collections, sets.
+% TODO: what if predicates were representing something else?
+% HINT: what about relations about objects?
+
+% TODO: let's talk about...complexity?
