@@ -85,7 +85,21 @@ Its high-level approach is depicted in Figure \ref{fig:ASP1} and can be summariz
 \end{enumerate}
 \begin{figure}
   \caption{High-level approach of using Answer Set Programming for declarative problem solving.}
-  \includegraphics[width=\linewidth]{f1.png}
+  \begin{center}
+    \smartdiagramset{back arrow disabled=true,%
+    uniform color list=white for 4 items,%
+    uniform arrow color=true,%
+    arrow color=gray,%
+    arrow line width=0.05cm,%
+    text width=1.8cm%
+    }
+    \smartdiagram[flow diagram:horizontal]%
+    {Problem instance \(I\),%
+    Encoding: Program \(P\),%
+    ASP Solver,%
+    Models \& Solutions}    
+  \end{center}
+  \caption{logical steps made in order to find a stable model of a program.}
   \label{fig:ASP1}
 \end{figure}
  
