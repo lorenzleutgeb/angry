@@ -1,7 +1,10 @@
 \section{Preliminaries}
 \label{sec:prelim}
 
-In this section some background knowledge will be presented in order to understand our work. For a detailed explaination the interested reader is suggested to have a look at the cited papers. 
+In this section some background knowledge will be presented in order to understand our work. 
+
+% NOTE: This is 1000% obvious.
+%For a detailed explaination the interested reader is suggested to have a look at the cited papers. 
 
 \subsection{Declarative Programming}
 The guiding principle of declarative programming is
@@ -11,12 +14,12 @@ The guiding principle of declarative programming is
 The idea is that the programmer should only focus on representing the problem without taking care of how to compute the solution of it. Indeed, the latter should be the job of the solver. As an example, a simple logic program \(P_1\) that  is able to append two list and to compute correctly the reversion of a list can be: 
 \begin{align}
 P_1 \colon \quad%
-&append ([\:], X, X). \\
+&append ([], X, X). \\
 &append ([X|Y], Z, [X|T ]) \leftarrow append (Y, Z, T ). \\
 &reverse([ ], [ ]).\\
 &reverse([X|Y ], Z) \leftarrow append (U, [X], Z), reverse(Y, U ). \label{eq:1} \\
 \intertext{
-where \([\cdot\mid\cdot]\) is a list contructor.
+where \([\cdot|\cdot]\) is a list constructor.
 If we wrote the following rule:}
 &reverse([X|Y ], Z) \leftarrow reverse(Y, U ), append(U, [X], Z). \label{eq:2}
 \end{align}
@@ -30,25 +33,30 @@ It is desirable that
 \end{enumerate}
 
 \subsection{Stable Model Semantics}
+% !!!!! CITATION MISSING BIG TIME !!!!!!
 Research on the declarative semantics of negation in logic programming was motivated by the fact that the behavior of SLDNF-resolution \cite{}, adopted by Prolog,  does not fully match the models of programs like \(P_2\):
 \begin{align}
   P_2 \colon \quad
 &\mathit{pig}((88,34)). \\
-&\mathit{easy\_target}(X) \leftarrow pig(X), not\: \mathit{hard\_target}(X). \label{eq:3}\\ 
-&\mathit{hard\_target}(X) \leftarrow pig(X), not\: \mathit{easy\_target}(X). \label{eq:4}
+&\mathit{easy\_target}(X) \leftarrow pig(X), \text{ not}\: \mathit{hard\_target}(X). \label{eq:3}\\ 
+&\mathit{hard\_target}(X) \leftarrow pig(X), \text{ not}\: \mathit{easy\_target}(X). \label{eq:4}
 \end{align}
-indeed, because of SLDNF-resolution, this program will not terminate. For example, given the query \(\mathit{easy\_target}(pig((88,34)))\), SLDNF-resolution will try to prove \(\mathit{hard\_target}(pig((88,34)))\) and to do so it will again try to solve \(\mathit{easy\_target}(pig((88,34))\).
-The non-termination of the Prolog program \(P_2\) does not mean that there is no solution for it, indeed the intuitive models for \(P_2\) are \(\{pig((88,34)), \mathit{hard\_target}((88,34))\}\) or  \(\{pig((88,34)), \mathit{easy\_target}((88,34))\}\).
+Indeed, SLDNF-resolution will not always terminate when run with this program: For example, given the initial query \(\mathit{easy\_target}(pig((88,34)))\), it is necessary to prove \(\mathit{hard\_target}(pig((88,34)))\) and to so, it is again necessary to prove \(\mathit{easy\_target}(pig((88,34))\) which leads to an obvious cycle.
+The non-termination for the Prolog program \(P_2\) with this query does not mean that there is no solution for it. The intuitive models for \(P_2\) are \(\{pig((88,34)), \mathit{hard\_target}((88,34))\}\) or \(\{pig((88,34)), \mathit{easy\_target}((88,34))\}\).
 
-Stable Models of a logic program \(P\) are models of \(P\) and they enjoy many properties which reflect natural intuitions.
-Indeed  Stable Models help us to find the intuitive model of the modified program \(P_1\) and \(P_2\). The idea is guessing an interpretation of the program, and test its satisfiability. In order to do so, the program from which the model is wanted to be found is first reduced. The algoritm for program reduction is:
+% !!!! WE NEED A CITATION FOR THE STABLE MODEL SEMANTICS HERE !!!! Probably Gelfond and Lifschitz?
+\emph{Stable models} of a logic program \(P\) are models of \(P\) which enjoy additional properties according to natural intuitions.
+Indeed stable models help us to find the intuitive model of the modified program \(P_1\) and \(P_2\). The idea is guessing an interpretation of the program, and testing its satisfiability. In order to do so, the program from which the model is wanted to be found is first reduced. 
 
-Given a program P and an interpretation \(M\) , \(P^M\) is a program obtained by 
+% !!!! WE NEED A CITATION FOR THE REDUCTION !!!!!!
+The algorithm for program reduction is:
+
+Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is a program obtained by 
 \begin{enumerate} 
-\item removing rules with not a in the body for each \(a \in M\)
-\item removing literals \(not\; a\) from all other rules for each \(a \notin M\)
+\item removing rules with \(\text{not } a\) in the body for each \(a \in M\)
+\item removing literals \(\text{not } a\) from all other rules % for each \(a \notin M\)
 \end{enumerate}
-After the reduction phase the least model \(LM(P_M)\) of \(P_M\) is computed and it is tested if \(M = LM(P_M)\). If the equality holds M is called a Stable Model of \(P\).
+After the reduction the least model \(LM(P^M)\) of \(P^M\) is computed and it is tested if \(M = lm(P^M)\). If the equality holds M is called a stable model of \(P\).
 
 If we consider again the program \(P_2\), we could have the following reasonable interpretations.
 \begin{align*}
@@ -67,24 +75,29 @@ P_2^{M_1} \colon \quad
 Here, rule~\eqref{eq:4} is removed since \(\mathit{easy\_target}(X) \in M_1\) and \(not\; \mathit{hard\_target}(X)\) is removed from rule~\eqref{eq:3} because \(\mathit{hard\_target}(X) \notin\; M_1\).
 \subsection{Answer Set Programming}
 
-ASP~\cite{aspPrime} is a declarative programming language capable of overcoming the limitations of Prolog in the programs \(P_1\) and \(P_2\). Its basic idea is:
+\emph{Answer Set Programming} (ASP)~\cite{aspPrime} is a form of declarative programming 
+capable of overcoming the limitations of Prolog in the programs \(P_1\) and \(P_2\).
+Its high-level approach is depicted in Figure \ref{fig:ASP1} and can be summarized as follows:
 \begin{enumerate}
-\item expressing the problem and represent it with a logic program in such a way that models of the logic program are solutions for the problem.
-\item using some ASP solver in order to compute the models of the program
-\item extract a solution for the problem from the model of the program
+\item Express the problem (instance) as a logic program, i.e.~in such a way that models of the logic program correspond to solutions for the problem.
+\item Use an ASP system in order to compute the models of the program.
+\item Extract a solution for the problem from the models of the program.
 \end{enumerate}
-as shown in Figure \ref{fig:ASP1}.
 \begin{figure}
+  \caption{High-level approach of using Answer Set Programming for declarative problem solving.}
   \includegraphics[width=\linewidth]{f1.png}
-  \caption{logical steps made in order to find a stable model of a program.}
   \label{fig:ASP1}
 \end{figure}
  
-Traditional answer set solvers typically have a two level architecture:
+Traditional answer set systems work in two phases:
 \begin{enumerate}
-\item Grounding Step: Given a program \(P\) with variables, a (subset) \(P'\) of its grounding is generated which has the same answer sets as \(P\). Grounding is needed because it makes the program smaller and easier to evaluate.
-\item Model Search: The answer sets of the grounded (propositional) program \(P'\) are computed. First a candidate model is generated and then stability condition is checked.
+\item Grounding: Given a program \(P\) with variables, a (subset) \(P'\) of its grounding is generated which has the same answer sets as \(P\).
+% NOTE: Sorry, but this is just wrong on so many levels. The program actually gets exponentially bigger, and the complexity of solving it overall stays the same.
+% Grounding is needed because it makes the program smaller and easier to evaluate.
+\item Solving: The answer sets of the grounded (propositional) program \(P'\) are computed. First a candidate model is generated and then stability condition is checked.
 \end{enumerate}
+
+% !!!!!!!!!!!!! CITATON MISSING !!!!!!!!!!!!!!!
 
 There are different techniques for each of the two steps described and their presentation is out of the scope of this paper. For a more detailed explanation, refer to~\cite{}.
 
