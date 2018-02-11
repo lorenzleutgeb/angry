@@ -1,4 +1,4 @@
-\section{The \ah agent}
+\section{The \ah Agent}
 \label{sec:agent}
 % Describe the Angry Birds scenario/setting and how the agent works
 \ah is an artificial player for \ab,
@@ -7,7 +7,7 @@ the world knowledge is carried out by
 means of computing the answer set of a
 HEX-program.
 It originated as a re-implementation of
-the naive agent provided by the organizers
+the na\"{i}ve agent provided by the organizers
 of the \abc \cite{angryAI},
 with general improvements on main components
 of it and a complete rewriting of the
@@ -17,58 +17,64 @@ of HEX-programs.
 In this section, an overview of the \ah
 agent will be presented, with a focus on
 the declarative part and its features. 
-For a full and detailed explanation of
+For a thorough and detailed explanation of
 the implementing process, of the agent
 layout and additional considerations on
 performance, the reader may refer to~\cite{angryhex}.
 
-\subsection{Base Framework}
+\subsection{Architecture of the Agent and its Connection to the Game}
+\label{sec:agent_base}
 
-The Base Framework, upon which \ah is built,
-consists of several modules, dealing with
-different aspects of the game, from 
-the interaction with the game environment,
-provided by the \ab browser
-extension and the \emph{Proxy} component of
-the \emph{Game Server}, to the communication
-between the agent client and the server,
-mediated through the server/client \emph{Communication Port};
-the following list describes the parts of main interest:
+The system that executes \ah and \ab consists of a
+number of loosely coupled components,
+each dealing with different aspects of the interaction.
+Since the game itself runs inside a browser a
+\emph{browser extension} that takes images of the game
+and forwards input to it is connected to a \emph{game server}
+which mediates between the agent and the game. The game server
+is in turn connected to \ah.
+The competition organizers prepared some Java code to
+simplify bootstrapping an agent implementation, and \ah
+makes use of these components, also referred to as \emph{framework}.
+
+Aside from all this auxiliary machinery we are interested in
+the core components of the agent that are closely connected to
+or implement its reasoning process:
 \begin{description}
-    \item[Vision] This module segments the images
+    \item[Vision] segments the images
     captured from the game environment, returning
     the minimum bounding rectangles of essential
     objects, as well as relevant information,
     like the types of birds available, the material
     of which bricks are composed and where pigs are placed.
-    \item[Trajectory] This component estimates
-    the trajectory followed by a bird after being
-    released; here, orientation and distance of 
-    the release point with respect to the slingshot
-    are taken into account.
+    It is part of the framework.
+    \item[Trajectory] estimates
+    the flight path of birds as they are
+    catapulted off the slingshot; here, orientation and distance of
+    the release point are taken into account.
     \item[Planning] also called \emph{AI agent} in the
+    % What the hell is "the original setting"? Maybe write it in quotes since its just a reference but we are not actually using that term.
     original setting, this part delivers the order
-    of the played levels, the choice of birds to use
+    of the played levels, the choice of birds to use,
     and other strategy-related choices.
 \end{description}
 
-\subsection{Interaction with HEX-programs}
+\subsection{HEX-programs for Planning the Agent's Actions}
 
-The main contribution brought by \ah is
-found in the planning component, which has
+The main contribution of \ah is the \textbf{Planning} component, which has
 been rewritten as a collection of HEX-programs.
 These are partitioned in two layers, namely
-the \emph{Tactic} and the \emph{Strategy} layer.
+the \textbf{Tactic} and the \textbf{Strategy} layer.
 Then, these programs are fed to the
 \textsc{dlv-hex} solver~\cite{dlvHEX},
 which returns answer sets containing
 information about the next moves in the game.
 
-The job of the \textbf{Tactic} layer is to compute optimal shots, retrieving information from the current scene in the game and using knowledge modeled by means of a HEX-program \(\mathcal{P}_{AI}\).
-The HEX-program \(\mathcal{P}_{AI}\) represents the knowledge of the agent on shootable targets, the estimates of the damage occurring when a target is hit and the priority of the targets, according to the estimated damages.
+The purpose of the \textbf{Tactic} layer is to compute optimal shots, retrieving information from the current scene in the game and using knowledge modeled by means of a HEX-program \(\mathcal{P}_{AI}\).
+This program represents the knowledge of the agent on shootable targets, the estimates of the damage occurring when a target is hit and the priority of the targets, according to the estimated damages.
 
 The \emph{input} of the \textbf{Tactic} layer consists of the program \(\mathcal{P}_{AI}\), together with a collection \(\mathcal{S}\) of logic assertions about the scene, provided by the \emph{Vision} component.
-The \emph{output} of the layer corresponds to the \emph{answer sets} of \(\mathcal{P}_{AI} \cup \mathcal{S}\), which contain information about which target to hit and what shot is required.
+The \emph{output} of the layer corresponds to the answer sets of \(\mathcal{P}_{AI} \cup \mathcal{S}\), which contain information about which target to hit and what shot is required.
 
 \emph{External atoms} are used in \(\mathcal{P}_{AI}\) mainly to outsource physics-based simulations to a dedicated, external program and to obtain insights about possible shots, consequences of the shots and the geometry of the scene.
 
@@ -77,7 +83,7 @@ The task of the \textbf{Strategy} layer, on the other hand, is to schedule the s
     \item First, all available levels are played once;
     \item Then, each level in which the obtained scores has the greatest difference from the current best score is selected --- up to a set threshold of possible attempts;
     \item Next, those levels where \ah scored better than the current best score, with the least difference in score, are selected (up to a certain number of attempts);
-    \item Finally, a random level is selected. 
+    \item To break ties, a random level is selected.
 \end{enumerate}
 
 The \textbf{Strategy} layer keeps a track of the scores that were previously achieved and of the objects that were previously chosen as initial targets.
