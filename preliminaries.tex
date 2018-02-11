@@ -79,27 +79,29 @@ Here, rule~\eqref{eq:4} is removed since \(\mathit{easy\_target}(X) \in M_1\) an
 capable of overcoming the limitations of Prolog in the programs \(P_1\) and \(P_2\).
 Its high-level approach is depicted in Figure \ref{fig:ASP1} and can be summarized as follows:
 \begin{enumerate}
-\item Express the problem (instance) as a logic program, i.e.~in such a way that models of the logic program correspond to solutions for the problem.
+\item Model the problem (instance) as a logic program, i.e.~in such a way that models of the logic program correspond to solutions for the problem.
 \item Use an ASP system in order to compute the models of the program.
 \item Extract a solution for the problem from the models of the program.
 \end{enumerate}
 \begin{figure}
   \caption{High-level approach of using Answer Set Programming for declarative problem solving.}
   \begin{center}
-    \smartdiagramset{back arrow disabled=true,%
-    uniform color list=white for 4 items,%
-    uniform arrow color=true,%
-    arrow color=gray,%
-    arrow line width=0.05cm,%
-    text width=1.8cm%
-    }
-    \smartdiagram[flow diagram:horizontal]%
-    {Problem instance \(I\),%
-    Encoding: Program \(P\),%
-    ASP Solver,%
-    Models \& Solutions}    
+\begin{tikzpicture}
+\tikzstyle{state} = [
+ draw,
+ minimum height=2em,
+ minimum width=10em
+]
+\node[state] at (0,2)  (i) {Problem Instance};
+\node[state] at (0,0)  (p) {Logic Program};
+\node[state] at (6,0)  (r) {Answer Set(s)};
+\node[state] at (6,2) (s) {Solution(s)};
+
+\path[draw,->] (i) -> node[left]{modeling} (p);
+\path[draw,->] (p) -> node[below]{computation} (r);
+\path[draw,->] (r) -> node[right]{interpretation} (s);
+\end{tikzpicture}
   \end{center}
-  \caption{logical steps made in order to find a stable model of a program.}
   \label{fig:ASP1}
 \end{figure}
  
