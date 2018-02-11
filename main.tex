@@ -45,7 +45,26 @@ Applying this kind of translation to all the rules employing higher-order predic
 
 % Applying this translation to all rules that make use of higher order predicates yields a program in first order.
 
-The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects implements Set} as well as a list of objects (\texttt{List<ABObject>}) may map to $O$.
+\subsection{Translation}
+
+The ASP system \al allows to insert arbitrary Java objects in place of terms.
+
+In the first stage of the translation, we replace the two sets $objects$ and $hills$, which were previously encoded as predicates, by a Java class called \texttt{ASPWorld}. Instances of this class represent a snapshot of the world, as retrieved by the agent from the game world.
+The class contains two \texttt{Collection}s, one containing Angry Birds objects (of type \texttt{ABObject}) and the other containing polygonal shapes, in place of $hills$.
+
+Next, the ``interpretation'' of the external predicate $\&canPush$ --- that is, how it operates on its input to return the pushable objects ---  is specified as a \texttt{@Predicate} instance with type signature
+\begin{center}
+    \texttt{public Set<List<ConstantTerm>> canPush(ASPWorld aspWorld)}
+\end{center}
+which indicates that the predicate returns a list of constant terms (of the form \((A,B)\)), that represent the fact that \(A\) can push \(B\), after being hit.
+
+Then, the clause containing the higher-order predicate in~\eqref{main:rule-1} is replaced by the clause
+
+$$ canPush(A,B) :- world(W), \&canPush[W](A,B). \label{main:rule-3} $$
+
+Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which corresponds to a \texttt{ASPWorld} instance --- and returns a list of candidates $(A,B)$ in which the item $A$ can effectively push the item $B$.
+
+%The ASP system \al allows for arbitrary Java objects in place for terms, so a custom class \texttt{ABObjects %implements Set} as well as a list of objects (\texttt{List<ABObject>}) may map to $O$.
 
 % How did we come up with the translation? Discovery of the translation.
 % End to end example of translation for a predicate in \ah
