@@ -1,6 +1,10 @@
 \section{Conclusion}
 \label{sec:conc}
 
+In this work, we have shown how an ASP program, employing some features of a particular system, can be ported to another, by trading higher-order expressivity with more articulated term interpretations.
+Specifically, we considered the \ah agent, described in~\cite{angryhex}, which underlying ASP system was \textsc{dlv-hex}; in order to port it to the \al solver, a higher-order elimination was needed.
+The proposed translation achieves this result, by introducing Java classes as interpretations for terms. 
+
 % How is this related to second order quantifier elimination? The universal closure over the rules with 2nd order predicates that we are elminiating should need second order quantifiers. After our translation process, they are gone. Have we just done second order quantifier elimination?
 
 % Basically, we have reinvented lists as terms.

@@ -73,7 +73,7 @@ information about the next moves in the game.
 The purpose of the \textbf{Tactic} layer is to compute optimal shots, retrieving information from the current scene in the game and using knowledge modeled by means of a HEX-program \(\mathcal{P}_{AI}\).
 This program represents the knowledge of the agent on shootable targets, the estimates of the damage occurring when a target is hit and the priority of the targets, according to the estimated damages.
 
-The \emph{input} of the \textbf{Tactic} layer consists of the program \(\mathcal{P}_{AI}\), together with a collection \(\mathcal{S}\) of logic assertions about the scene, provided by the \emph{Vision} component.
+The \emph{input} of the \textbf{Tactic} layer consists of the program \(\mathcal{P}_{AI}\), together with a collection \(\mathcal{S}\) of logic assertions about the scene, provided by the \textbf{Vision} component.
 The \emph{output} of the layer corresponds to the answer sets of \(\mathcal{P}_{AI} \cup \mathcal{S}\), which contain information about which target to hit and what shot is required.
 
 \emph{External atoms} are used in \(\mathcal{P}_{AI}\) mainly to outsource physics-based simulations to a dedicated, external program and to obtain insights about possible shots, consequences of the shots and the geometry of the scene.

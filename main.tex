@@ -51,16 +51,15 @@ In our setting, the clause containing the higher-order predicate in~\eqref{main:
 $$ canPush(A,B) \leftarrow world(W), \&canPush[W](A,B) \label{main:rule-3} $$
 
 Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which is interpreted as a \texttt{ASPWorld} instance --- and returns a list of tuples of constant terms $(A,B)$ in which the item $A$ can effectively push the item $B$.
-% How did we come up with the translation? Discovery of the translation.
-% End to end example of translation for a predicate in \ah
 
-\subsection{About the second-order elimination}
+\subsection{About the translation}
 
-While one may be tempted to label this as a general technique to achieve second-order elimination, it may be useful to investigate what made the proposed conversion possible and to discuss whether it is always the case for such a translation to be applicable.
+While one may be tempted to label the described procedure as a general technique to achieve second-order elimination, it may be useful to investigate what made the proposed conversion possible and to discuss whether it is always the case for such a translation to be applicable.
 
-% TODO: what were the eliminated predicates representing?
-% HINT: enumerations, collections, sets.
-% TODO: what if predicates were representing something else?
-% HINT: what about relations about objects?
+In the setting of \ah, the use of higher-order predicates was motivated by the need to collect multiple items of the same kind (birds, bricks, pigs, \ldots) as input of the external predicates.
+Since input predicates were used as collectors --- hence, used as auxiliary data structures --- the availability of terms' interpretation as Java classes, provided by \al, made it possible to resort to first-order predicates with terms interpreted as suitable Java classes.
 
-% TODO: let's talk about...complexity?
+However, this approach may not be applicable to other settings, where higher-order predicates are used in a different way.
+Thus, we do not claim this to be a general technique for second-order elimination.
+
+% If it makes the cut for next time, we may briefly talk about complexity.
