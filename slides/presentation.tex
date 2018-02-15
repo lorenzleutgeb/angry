@@ -8,6 +8,8 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{xspace}
+\usepackage{booktabs}
+\usepackage{amssymb}
 \usepackage{tikz}
 \usetikzlibrary{arrows} % required in the preamble
 \usepackage{smartdiagram}
@@ -180,9 +182,27 @@ left of module3/%,right of module5/End
 	\end{center}
 \end{frame}
 
+\begin{frame}
+	\frametitle{DLV-HEX vs \al}
+	\begin{center}
+		\begin{tabular}{lcc}
+			\toprule
+			& DLV-HEX & \al \\
+			\midrule
+			Constant terms & \checkmark & \checkmark \\
+			Natural numbers & \checkmark & \checkmark \\
+			Strings & \checkmark & \checkmark \\
+			HEX-programs & \checkmark & \\
+			Java objs. interpretation & & \checkmark \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+\end{frame}
+
 \section{From complex predicates to complex objects}
 
 \begin{frame}
+
 \end{frame}
 
 \begin{frame}[standout]
