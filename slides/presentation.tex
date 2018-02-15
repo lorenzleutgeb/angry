@@ -8,8 +8,6 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{xspace}
-\usepackage{booktabs}
-\usepackage{amssymb}
 \usepackage{tikz}
 \usetikzlibrary{arrows} % required in the preamble
 \usepackage{smartdiagram}
@@ -20,8 +18,8 @@
 \newcommand{\abc}{Angry Birds AI Competition\xspace}
 \newcommand{\al}{Alpha\xspace}
 
-\title{Complex Predicates vs Complex Objects}
-\subtitle{A case study on ASP for Implementing Artificial Agents}
+\title{Complex Predicates vs.\ Complex Objects}
+\subtitle{A Case Study on ASP for Implementing Artificial Agents}
 \author{Filippo De Bortoli \and Lorenz Leutgeb \and Cosimo Persia}
 \institute{European Master's Program in Computational Logic, TU Dresden}
 \date{February 16th, 2018}
@@ -30,9 +28,11 @@
 
 \maketitle
 
-\begin{frame}
-    \frametitle{Outline}
+\begin{frame}{Outline}
+    \tableofcontents
 \end{frame}
+
+\section{Angry Birds}
 
 \begin{frame}
  	\frametitle{Angry Birds - The Game}
@@ -64,6 +64,16 @@
   		\end{itemize}
 		 \end{column}
 	 \end{columns}
+\end{frame}
+
+\begin{frame}{Our Motivation}
+	\begin{itemize}
+		\item Find an existing, interesting agent based on logic programming (ASP). Angry-HEX
+		\item Understand how it works.
+		\item Figure out how to adapt it to the Alpha system.
+		\item Structure and formalize the learnings.
+		\item Improve over the agent!
+	\end{itemize}
 \end{frame}
 
 \section{ASP and HEX-programs}
@@ -182,27 +192,31 @@ left of module3/%,right of module5/End
 	\end{center}
 \end{frame}
 
-\begin{frame}
-	\frametitle{DLV-HEX vs \al}
-	\begin{center}
-		\begin{tabular}{lcc}
-			\toprule
-			& DLV-HEX & \al \\
-			\midrule
-			Constant terms & \checkmark & \checkmark \\
-			Natural numbers & \checkmark & \checkmark \\
-			Strings & \checkmark & \checkmark \\
-			HEX-programs & \checkmark & \\
-			Java objs. interpretation & & \checkmark \\
-			\bottomrule
-		\end{tabular}
-	\end{center}
+\section{From Complex Predicates to Complex Objects}
+
+\begin{frame}{Encoding Sets using Complex Predicates}
+	A set \(s = \{ a, b, c \}\):
+    \begin{align*}
+    	s(a). s(b). s(c) \\
+    \end{align*}
+
+	Quantify over \(s\):
+	\begin{align*}
+		r(q,s).
+		Z(X) \leftarrow r(Z,Y), Y(X).
+	\end{align*}
 \end{frame}
 
-\section{From complex predicates to complex objects}
+\begin{frame}{Encoding Sets using Complex Objects}
+	A set \(s = \{ a, b, c \}\):
+    \begin{align*}
+    	s(\{a, b, c\}).
+    \end{align*}
 
-\begin{frame}
-
+	Quantify over \(s\):
+	\begin{align*}
+		q(X) \leftarrow s(X).
+	\end{align*}
 \end{frame}
 
 \begin{frame}[standout]
