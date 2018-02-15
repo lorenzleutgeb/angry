@@ -62,4 +62,8 @@ Since input predicates were used as collectors --- hence, used as auxiliary data
 However, this approach may not be applicable to other settings, where higher-order predicates are used in a different way.
 Thus, we do not claim this to be a general technique for second-order elimination.
 
-% If it makes the cut for next time, we may briefly talk about complexity.
+\subsection{Complexity}
+
+While higher-order atoms do not increase the complexity of the reasoning process --- compared to ordinary atoms--- as described in~\cite{hex}, external atoms may be a source of additional complexity.
+Given that the HEX-program $\mathcal{P}_{AI}$ used in the \textbf{Planning} component is disjunction-free, the result stated in~\cite[Theorem 8]{hex} let us conclude that deciding whether $\mathcal{P}_{AI}$ has some answer sets is in $NEXP^C$, where $C$ is the complexity class of the functions associated with the external atoms.
+In our case, all the Java methods used as interpretation for the external predicates can be seen as functions with complexity in $NP$: this lets us conclude that the complexity of the reasoning process carried out by the \textbf{Planning} component is $NEXP^{NP}$.
