@@ -23,11 +23,7 @@ If we use the following rule:}
 
 \noindent instead of the rule~\eqref{eq:1} in program \(P_1\), the meaning of the rule would not change and as a consequence, both programs should have the same behaviour. 
 
-It is desirable that
-\begin{enumerate}
-\item the order of program rules does not matter, and
-\item the order of subgoals in a rule body does not matter.
-\end{enumerate}
+It is desirable that (1.) the order of rules in the program does not matter, and (2.) the order of subgoals in a rule body does not matter.
 
 \subsection{Stable Model Semantics}
 Research on the declarative semantics of negation in logic programming was motivated by the fact that the behavior of SLDNF-resolution \cite{sldnf}, adopted by Prolog,  does not fully match the models of programs like \(P_2\):
@@ -43,14 +39,11 @@ The non-termination for the Prolog program \(P_2\) with this query does not mean
 \emph{Stable models} of a logic program \(P\), first defined in~\cite{Gelfond-Lifschitz}, are models of \(P\) which enjoy additional properties according to natural intuitions.
 Indeed stable models help us to find the intuitive model of the modified program \(P_1\) and \(P_2\). The idea is guessing an interpretation of the program, and testing its satisfiability. In order to do so, the program from which the model is wanted to be found is first reduced. 
 
-\textit{
-Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is the program reduced obtained by 
-\begin{enumerate} 
-\item removing rules with \(\text{not } a\) in the body for each \(a \in M\)
-\item removing literals \(\text{not } a\) from all other rules % for each \(a \notin M\)
-\end{enumerate}
-After the reduction the least model \(LM(P^M)\) of \(P^M\) is computed and it is tested if \(M = LM(P^M)\). If the equality holds M is called a stable model of \(P\).
-}\newline
+\paragraph{Computing Stable Models} Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is the program reduced obtained by (1.) removing rules with \(\text{not } a\) in the body for each \(a \in M\) (2.) removing literals \(\text{not } a\) from all other rules. % for each \(a \notin M\)
+We say that \(M\) is a stable model if the least model of \(P^M\) coincides with \(M\).
+
+%After the reduction the least model \(LM(P^M)\) of \(P^M\) is computed and it is tested if \(M = LM(P^M)\). If the equality holds \(M\) is called a stable model of \(P\).
+
 If we consider again the program \(P_2\), we could have the following reasonable interpretations.
 \begin{align*}
 M_1&= \{pig((88,34)), \mathit{easy\_target}((88,34))\}  \\
@@ -77,7 +70,6 @@ Its high-level approach is depicted in Figure \ref{fig:ASP1} and can be summariz
 \item Extract a solution for the problem from the models of the program.
 \end{enumerate}
 \begin{figure}
-  \caption{High-level approach of using Answer Set Programming for declarative problem solving.}
   \begin{center}
 \begin{tikzpicture}
 \tikzstyle{state} = [
@@ -85,9 +77,9 @@ Its high-level approach is depicted in Figure \ref{fig:ASP1} and can be summariz
  minimum height=2em,
  minimum width=10em
 ]
-\node[state] at (0,2)  (i) {Problem Instance};
-\node[state] at (0,0)  (p) {Logic Program};
-\node[state] at (6,0)  (r) {Answer Set(s)};
+\node[state] at (0,2) (i) {Problem Instance};
+\node[state] at (0,0) (p) {Logic Program};
+\node[state] at (6,0) (r) {Answer Set(s)};
 \node[state] at (6,2) (s) {Solution(s)};
 
 \path[draw,->] (i) -> node[left]{modeling} (p);
@@ -95,6 +87,7 @@ Its high-level approach is depicted in Figure \ref{fig:ASP1} and can be summariz
 \path[draw,->] (r) -> node[right]{interpretation} (s);
 \end{tikzpicture}
   \end{center}
+  \caption{High-level approach of using Answer Set Programming for declarative problem solving.}
   \label{fig:ASP1}
 \end{figure}
  
@@ -104,7 +97,7 @@ Traditional answer set systems work in two phases:
 \item Solving: The answer sets of the grounded (propositional) program \(P'\) are computed. First a candidate model is generated and then stability condition is checked.
 \end{enumerate}
 
-Different techniques have been developed during these years; DLV \cite{dlv}, Smodels \cite{smodels}, Platypus \cite{platypus} and clasp \cite{clasp} are example of solvers. For a more detailed explanation, refer to~\cite{primer}.
+Different techniques have been developed over the years; DLV \cite{dlv}, Smodels \cite{smodels}, Platypus \cite{platypus} and clasp \cite{clasp} are example of solvers. Also, some systems avoid the \emph{grounding bottleneck} and interleave grounding and solving: ASPeRiX \cite{asperix,fofchain}, OMiGA \cite{omiga}, and Alpha, the system used in this work. For a more detailed explanation, refer to~\cite{primer,aspbook}.
 
 \subsection{HEX-Programs}
 HEX-programs~\cite{hex}, \emph{\underline{h}igher-order} logic programs with \emph{\underline{ex}ternal} atoms were introduced as a generalization of extended logic programs under the stable model semantics. The syntax of HEX-programs extend ordinary ASP programs by \emph{external atoms}, which enable a bidirectional interaction between a program and external sources of computation. External atoms have a list of input parameters and a list of output parameters. Informally, to evaluate an external atom, the reasoner passes the instantiated input parameters to the external source associated with the external atom. The external source computes output tuples that are matched with the output list. Formally, an external atom is of the form \(\&g[\vec{Y}](\vec{X})\), where \(\vec{Y} = Y_1, \dotso , Y_k\) are input parameters (from the set of terms, variables and predicates) and \(\vec{X} = X_1, \dotso , X_l \) are output terms.
