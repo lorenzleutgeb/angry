@@ -50,7 +50,7 @@ In our setting, the clause containing the higher-order predicate in~\eqref{main:
 
 $$ canPush(A,B) \leftarrow world(W), \&canPush[W](A,B) \label{main:rule-3} $$
 
-Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which is interpreted as a \texttt{ASPWorld} instance --- and returns a list of tuples of constant terms $(A,B)$ in which the item $A$ can effectively push the item $B$.
+Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which is interpreted as a \texttt{ASPWorld} instance --- and returns a list of tuples of constant terms $(A,B)$ in which the item $A$ can effectively push the item $B$. Note that the comfort of programming in Java and its abstract memory model immediately carries over to implementations of external sources.
 
 \subsection{About the translation}
 
