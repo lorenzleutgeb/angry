@@ -9,7 +9,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-
+\usepackage{color}
 \usepackage{xspace}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -86,7 +86,7 @@
 \begin{frame}{Declarative Programming}
  	\begin{center}
  	\begin{itemize}
-	\item<1->[] ALGORITHM = LOGIC + CONTROL
+	\item<1->[] \begin{center} \colorbox{Gray}{\color{white}{ALGORITHM = LOGIC + CONTROL}} \end{center}
 		\begin{align*}
 			&append ([\:], X, X). \\
 			&append ([X|Y], Z, [X|T ]) \leftarrow append (Y, Z, T ). \\
@@ -120,7 +120,27 @@
     		\end{align*}
     \end{itemize}
 \end{frame}
-%maybe another example of stable model here
+
+\begin{frame}
+	\frametitle{Stable model semantics}
+	\begin{center} \colorbox{Gray}{\color{white}{\large{Gelfond Lifschitz Reduct}}} \end{center}
+	Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is the program reduced obtained by 
+	\begin{enumerate}
+		\item removing rules with \(\text{not } a\) in the body for each \(a \in M\)
+		\item emoving literals \(\text{not } a\) from all other rules.
+	\end{enumerate}	  
+	We say that \(M\) is a stable model if the least model of \(P^M\) coincides with \(M\).
+\end{frame}
+
+\begin{frame}
+	\frametitle{Higher order atoms}
+	Higher order atoms are atoms that have as argument predicate symbols.
+	\begin{itemize}
+		\item<1->[] \(p(a),p(b),p(c)\) \quad \quad \quad \quad \quad unary atoms
+		\item<2->[] \(h(\textcolor{red}{p},I) \leftarrow \textcolor{red}{p}(I).\) \quad \quad \quad \quad \quad higher order atom
+		\item<2->[] \textcolor{red}{first order atom}
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{External Atoms}
     \begin{itemize}
@@ -132,6 +152,7 @@
     		\begin{align*}
 				bel(X,Y,Z) \leftarrow \&rdf[url](X,Y,Z)
     		\end{align*}
+    	\item<6-> used for numeric computation (physics)
     \end{itemize}
 \end{frame}
 
@@ -200,7 +221,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{DLV-HEX vs \al}
+	\frametitle{DLV-HEX vs.\ \al}
 	\begin{center}
 		\begin{tabular}{lcc}
 			\toprule
