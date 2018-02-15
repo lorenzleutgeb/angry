@@ -8,6 +8,10 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{xspace}
+\usepackage{tikz}
+\usetikzlibrary{arrows} % required in the preamble
+\usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions} % required in the preamble
 
 \newcommand{\ah}{Angry-HEX\xspace}
 \newcommand{\ab}{Angry Birds\xspace}
@@ -40,23 +44,32 @@
 \end{frame}
 
 \begin{frame}
- 	\frametitle{Angry Birds - Challanges for AI}
-		\begin{itemize}
-    		\item<1-> Physics
-    		{\par\centering\includegraphics<2>[width=5cm]{./img/birds.png}\par}
-    		\item<3-> Planning
-    		{\par\centering\includegraphics<4>[width=5cm]{./img/planning.png}\par}
-    		\item<5-> Computer Vision
-    		{\par\centering\includegraphics<6>[width=5cm]{./img/vision.jpg}\par}
-    		\item<7-> Knowledge Representation
+	 \frametitle{Angry Birds - Challanges for AI}
+	 \begin{columns}
+		 \begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item<1->[] Physics
+				{\par\centering\includegraphics<1>[width=4.5cm]{./img/birds-square}\par}
+				\item<2->[] Planning
+				{\par\centering\includegraphics<2>[width=4.5cm]{./img/planning.png}\par}
+			\end{itemize}
+		 \end{column}
+		 \begin{column}{0.5\textwidth}
+			\begin{itemize}
+			\item<3->[] Computer Vision
+    		{\par\centering\includegraphics<3>[width=4.5cm]{./img/object-detection}\par}
+    		\item<4->[] Knowledge Representation
   		\end{itemize}
+		 \end{column}
+	 \end{columns}
 \end{frame}
 
 \section{ASP and HEX-programs}
 \begin{frame}
+	\frametitle{Declarative Programming}
  	\begin{center}
  	\begin{itemize}
-	\item<1->[] Declarative Programming ALGORITM = LOGIC + CONTROL
+	\item<1->[] ALGORITHM = LOGIC + CONTROL
 		\begin{align*}
 			&append ([\:], X, X). \\
 			&append ([X|Y], Z, [X|T ]) \leftarrow append (Y, Z, T ). \\
@@ -65,7 +78,7 @@
 		\end{align*}
   \item<2>[] Order of clauses and subgoals does not matter.
   		\begin{align*}
-			reverse([X|Y ], Z) \leftarrow reverse(Y, U ), append (U, [X], Z).
+			reverse([X|Y], Z) \leftarrow reverse(Y, U ), append (U, [X], Z).
 		\end{align*}
 	\end{itemize}	
 	\end{center}
@@ -77,18 +90,17 @@
     \begin{center}
     	\begin{align*}
 			&pig((88,34)). \\
-			&easy\_taget(X) \leftarrow pig(X), not\: difficult\_taget(X). \\ 
-			&difficult\_taget(X) \leftarrow pig(X), not\: easy\_taget(X) 
+			&easy\_target(X) \leftarrow pig(X), not\: difficult\_target(X). \\ 
+			&difficult\_target(X) \leftarrow pig(X), not\: easy\_target(X). 
 		\end{align*}
     \end{center}
     \begin{itemize}
     	\item<2->[] models which reflects natural intuition
     	\item<3->[]
     		\begin{align*}
-				&\only<4>{\textcolor{red}}{ M_1= \{pig((88,34)), easy\_taget((88,34))\}  } \\
-				&\only<4>{\textcolor{red}}{ M_2= \{pig((88,34)), difficult\_taget((88,34))\}  }\\
-				&M_3= \{pig((88,34)), easy\_taget((88,34)), difficult\_taget((88,34))\} \\
-				&M_4= \{pig((88,34))\} \\
+				&\only<4>{\textcolor{red}}{ M_1= \{pig((88,34)), easy\_target((88,34))\}  } \\
+				&\only<4>{\textcolor{red}}{ M_2= \{pig((88,34)), difficult\_target((88,34))\}  }\\
+				&M_3= \{pig((88,34)), easy\_target((88,34)), difficult\_target((88,34))\}
     		\end{align*}
     \end{itemize}
 \end{frame}
@@ -97,7 +109,7 @@
 \begin{frame}
     \frametitle{External atoms}
     \begin{itemize}
-    	\item<1-> allows bidirectional communication with external sources
+    	\item<1-> They allow bidirectional communication with external sources
     	\item<2->[] \[ \&g[q_1,\dots,q_k](t_1,\dots,t_l) \]
     	\item<3-> Example: we want to use an arbitrary computable function that access an rdf file from the web
     	\item<4->[] \[ \&rdf[url](X,Y,Z) \]
@@ -113,7 +125,7 @@
     \begin{itemize}
     	\item<1-> Generalization of disjunctive extended logic programs under the answer set semantics.
     	\item<2-> Rules
-    	\item<2->[] \[ a_1, \lor \dots \lor a_n \leftarrow b_1, \dots , b_m, \neg b_m+1, \dots, b_n \; (m,n \geq 0)\]
+    	\item<2->[] \[ a_1, \lor \dots \lor a_n \leftarrow b_1, \dots , b_m, \neg b_{m+1}, \dots, b_n \; (m,n \geq 0)\]
     	\item<3-> External atoms
     	\item<3->[] \[ \&g[q_1,\dots,q_k](t_1,\dots,t_l) \]
     \end{itemize}
@@ -122,17 +134,55 @@
 \section{\ah}
 
 \begin{frame}
-    \frametitle{Base Framework}
+	\frametitle{\ah Architecture}
+	\begin{center}
+		\begin{figure}
+			\begin{tikzpicture}
+				\node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[scale=0.6]{./img/angryhex-agent}};
+				\begin{invisibleenv}<-1>
+					\draw[red,ultra thick,rounded corners] (7.1,1.6) -- (8.5,2.4);
+					\draw[red,ultra thick,rounded corners] (7.1,2.4) -- (8.5,1.6);
+					\node[text=red] at (7.8,2.8) {Alpha ASP};	
+				\end{invisibleenv}
+			\end{tikzpicture}
+			\caption{Agent architecture, from \emph{Angry-HEX: An Artificial Player for Angry Birds Based on Declarative
+			Knowledge Bases}, Calimeri et al., 2016}
+		\end{figure}
+	\end{center}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Interaction with HEX-programs}
+	\frametitle{Interaction with HEX-programs}
+	\begin{center}
+		\smartdiagramset{
+%uniform color list=orange!60!yellow for 5 items,
+circular final arrow disabled=false,
+circular distance=2.25cm,
+arrow tip=to,
+arrow line width=2pt,
+additions={
+%additional item bottom color=orange!60!yellow,
+%additional item border color=gray,
+%additional item shadow=drop shadow,
+additional item offset=0.65cm,
+additional arrow line width=2pt,
+additional arrow tip=to,
+additional arrow color=orange!60!yellow,
+}
+}
+\smartdiagramadd[circular diagram]{
+Answer Set,Game Action,Game Level,Facts $\mathcal{S}$,$\mathcal{P}_{AI} \cup \mathcal{S}$
+}{
+left of module3/%,right of module5/End
+}
+\smartdiagramconnect{to-}{module3/additional-module1}
+%\smartdiagramconnect{-to}{module5/additional-module2}
+	\end{center}
 \end{frame}
 
 \section{From complex predicates to complex objects}
 
 \begin{frame}
-    C
 \end{frame}
 
 \begin{frame}[standout]
