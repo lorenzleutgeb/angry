@@ -180,9 +180,31 @@ left of module3/%,right of module5/End
 	\end{center}
 \end{frame}
 
-\section{From complex predicates to complex objects}
+\section{From Complex Predicates to Complex Objects}
 
-\begin{frame}
+\begin{frame}[Encoding Sets using Complex Predicates]
+	A set \(s = \{ a, b, c \}\):
+    \begin{align*}
+    	s(a). s(b). s(c) \\
+    \end{align*}
+
+	Quantify over \(s\):
+	\begin{align*}
+		r(q,s).
+		Z(X) \leftarrow r(Z,Y), Y(X).
+	\end{align*}
+\end{frame}
+
+\begin{frame}[Encoding Sets using Complex Objects]
+	A set \(s = \{ a, b, c \}\):
+    \begin{align*}
+    	s(\{a, b, c\}).
+    \end{align*}
+
+	Quantify over \(s\):
+	\begin{align*}
+		q(X) \leftarrow s(X).
+	\end{align*}
 \end{frame}
 
 \begin{frame}[standout]
