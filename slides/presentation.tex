@@ -18,8 +18,8 @@
 \newcommand{\abc}{Angry Birds AI Competition\xspace}
 \newcommand{\al}{Alpha\xspace}
 
-\title{Complex Predicates vs Complex Objects}
-\subtitle{A case study on ASP for Implementing Artificial Agents}
+\title{Complex Predicates vs.\ Complex Objects}
+\subtitle{A Case Study on ASP for Implementing Artificial Agents}
 \author{Filippo De Bortoli \and Lorenz Leutgeb \and Cosimo Persia}
 \institute{European Master's Program in Computational Logic, TU Dresden}
 \date{February 16th, 2018}
@@ -28,9 +28,11 @@
 
 \maketitle
 
-\begin{frame}
-    \frametitle{Outline}
+\begin{frame}{Outline}
+    \tableofcontents
 \end{frame}
+
+\section{Angry Birds}
 
 \begin{frame}
  	\frametitle{Angry Birds - The Game}
@@ -62,6 +64,16 @@
   		\end{itemize}
 		 \end{column}
 	 \end{columns}
+\end{frame}
+
+\begin{frame}{Our Motivation}
+	\begin{itemize}
+		\item Find an existing, interesting agent based on logic programming (ASP). Angry-HEX
+		\item Understand how it works.
+		\item Figure out how to adapt it to the Alpha system.
+		\item Structure and formalize the learnings.
+		\item Improve over the agent!
+	\end{itemize}
 \end{frame}
 
 \section{ASP and HEX-programs}
@@ -182,7 +194,7 @@ left of module3/%,right of module5/End
 
 \section{From Complex Predicates to Complex Objects}
 
-\begin{frame}[Encoding Sets using Complex Predicates]
+\begin{frame}{Encoding Sets using Complex Predicates}
 	A set \(s = \{ a, b, c \}\):
     \begin{align*}
     	s(a). s(b). s(c) \\
@@ -195,7 +207,7 @@ left of module3/%,right of module5/End
 	\end{align*}
 \end{frame}
 
-\begin{frame}[Encoding Sets using Complex Objects]
+\begin{frame}{Encoding Sets using Complex Objects}
 	A set \(s = \{ a, b, c \}\):
     \begin{align*}
     	s(\{a, b, c\}).
