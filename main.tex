@@ -52,10 +52,6 @@ $$ canPush(A,B) \leftarrow world(W), \&canPush[W](A,B) \label{main:rule-3} $$
 
 Here, $\&canPush$ is no longer a higher-order predicate: indeed, it receives a ground atom $W$ as input --- which is interpreted as a \texttt{ASPWorld} instance --- and returns a list of tuples of constant terms $(A,B)$ in which the item $A$ can effectively push the item $B$. Note that the comfort of programming in Java and its abstract memory model immediately carries over to implementations of external sources.
 
-\subsection{About the translation}
-
-While one may be tempted to label the described procedure as a general technique to achieve second-order elimination, it may be useful to investigate what made the proposed conversion possible and to discuss whether it is always the case for such a translation to be applicable.
-
 In the setting of \ah, the use of higher-order predicates was motivated by the need to collect multiple items of the same kind (birds, bricks, pigs, \ldots) as input of the external predicates.
 Since input predicates were used as collectors --- hence, used as auxiliary data structures --- the availability of terms' interpretation as Java classes, provided by \al, made it possible to resort to first-order predicates with terms interpreted as suitable Java classes.
 
@@ -64,6 +60,6 @@ Thus, we do not claim this to be a general technique for second-order eliminatio
 
 \subsection{Complexity}
 
-While higher-order atoms do not increase the complexity of the reasoning process --- compared to ordinary atoms--- as described in~\cite{hex}, external atoms may be a source of additional complexity.
-Given that the HEX-program $\mathcal{P}_{AI}$ used in the \textbf{Planning} component is disjunction-free, the result stated in~\cite[Theorem 8]{hex} let us conclude that deciding whether $\mathcal{P}_{AI}$ has some answer sets is in $NEXP^C$, where $C$ is the complexity class of the functions associated with the external atoms.
-In our case, all the Java methods used as interpretation for the external predicates can be seen as functions with complexity in $NP$: this lets us conclude that the complexity of the reasoning process carried out by the \textbf{Planning} component is $NEXP^{NP}$.
+While use of higher-order atoms do not increase the complexity of the reasoning process (compared to ordinary atoms; as described in~\cite{hex}), external atoms may be a source of additional complexity.
+Given that the HEX-program $\mathcal{P}_{AI}$ used in the \textbf{Planning} component is disjunction-free, by \cite[Theorem 8]{hex} we conclude that deciding whether $\mathcal{P}_{AI}$ has some answer sets is in \textsc{NExpTime}\textsuperscript{\(C\)}, where \(C\) is the complexity class of the functions associated with the external atoms.
+In our case, all the Java methods used as interpretation for the external predicates can be seen as functions with complexity in \textsc{NP}: this lets us conclude that the complexity of the reasoning process carried out by the \textbf{Planning} component is \textsc{NExpTime}\textsuperscript{\textsc{NP}}.

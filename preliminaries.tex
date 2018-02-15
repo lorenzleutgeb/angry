@@ -39,11 +39,7 @@ The non-termination for the Prolog program \(P_2\) with this query does not mean
 \emph{Stable models} of a logic program \(P\), first defined in~\cite{Gelfond-Lifschitz}, are models of \(P\) which enjoy additional properties according to natural intuitions.
 Indeed stable models help us to find the intuitive model of the modified program \(P_1\) and \(P_2\). The idea is guessing an interpretation of the program, and testing its satisfiability. In order to do so, the program from which the model is wanted to be found is first reduced. 
 
-\paragraph{Computing Stable Models} Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is the program reduced obtained by 
-\begin{enumerate} 
-\item removing rules with \(\text{not } a\) in the body for each \(a \in M\)
-\item removing literals \(\text{not } a\) from all other rules % for each \(a \notin M\)
-\end{enumerate}
+\paragraph{Computing Stable Models} Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is the program reduced obtained by (1.) removing rules with \(\text{not } a\) in the body for each \(a \in M\) (2.) removing literals \(\text{not } a\) from all other rules. % for each \(a \notin M\)
 We say that \(M\) is a stable model if the least model of \(P^M\) coincides with \(M\).
 
 %After the reduction the least model \(LM(P^M)\) of \(P^M\) is computed and it is tested if \(M = LM(P^M)\). If the equality holds \(M\) is called a stable model of \(P\).
