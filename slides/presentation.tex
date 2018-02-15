@@ -152,11 +152,11 @@
 		\begin{figure}
 			\begin{tikzpicture}
 				\node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[scale=0.6]{./img/angryhex-agent}};
-				\begin{invisibleenv}<-1>
+				\begin{uncoverenv}<2->
 					\draw[red,ultra thick,rounded corners] (7.1,1.6) -- (8.5,2.4);
 					\draw[red,ultra thick,rounded corners] (7.1,2.4) -- (8.5,1.6);
 					\node[text=red] at (7.8,2.8) {Alpha ASP};	
-				\end{invisibleenv}
+				\end{uncoverenv}
 			\end{tikzpicture}
 			\caption{Agent architecture, from \emph{Angry-HEX: An Artificial Player for Angry Birds Based on Declarative
 			Knowledge Bases}, Calimeri et al., 2016}
@@ -164,32 +164,39 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{Interaction with HEX-programs}
+\begin{frame}{Interaction with HEX-programs: Tactic}
 	\begin{center}
 		\smartdiagramset{
-%uniform color list=orange!60!yellow for 5 items,
-circular final arrow disabled=false,
-circular distance=2.25cm,
-arrow tip=to,
-arrow line width=2pt,
-additions={
-%additional item bottom color=orange!60!yellow,
-%additional item border color=gray,
-%additional item shadow=drop shadow,
-additional item offset=0.65cm,
-additional arrow line width=2pt,
-additional arrow tip=to,
-additional arrow color=orange!60!yellow,
-}
-}
-\smartdiagramadd[circular diagram]{
-Answer Set,Game Action,Game Level,Facts $\mathcal{S}$,$\mathcal{P}_{AI} \cup \mathcal{S}$
-}{
-left of module3/%,right of module5/End
-}
-\smartdiagramconnect{to-}{module3/additional-module1}
-%\smartdiagramconnect{-to}{module5/additional-module2}
-	\end{center}
+        circular final arrow disabled=false,
+        circular distance=2.25cm,
+        arrow tip=to,
+        arrow line width=2pt,
+        additions={
+            additional item offset=0.65cm,
+            additional arrow line width=2pt,
+            additional arrow tip=to,
+            additional arrow color=orange!60!yellow,
+        }
+    }
+    \smartdiagramadd[circular diagram]{
+    Answer Set,Game Action,Game Level,Facts $\mathcal{S}$,$\mathcal{P}_{AI} \cup \mathcal{S}$
+    }{
+    left of module3/%
+	}
+	% game action -> shoot the target
+    \smartdiagramconnect{to-}{module3/additional-module1}
+\end{center}
+\(\mathcal{P}_{AI}\) denotes the collection of HEX-programs used by \ah
+\end{frame}
+
+\begin{frame}
+	\frametitle{Interaction with HEX-programs: Strategy}
+	The agent plays levels, according to this policy
+	\begin{enumerate}
+		\item Play each level once
+		\item Play those levels which score differs the most from best score
+		\item Play levels in which \ah played best and difference to 2nd best score is minimal
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}
@@ -207,7 +214,7 @@ left of module3/%,right of module5/End
 			\bottomrule
 		\end{tabular}
 	\end{center}
-	How to convert external and higher-order atoms to first-order atoms, using Java objects as interpretation for terms?
+	How to convert external and higher-order atoms to first-order external atoms, using Java objects as interpretation for terms?
 \end{frame}
 
 \section{From Complex Predicates to Complex Objects}
@@ -239,6 +246,10 @@ left of module3/%,right of module5/End
 
 \begin{frame}
 	\frametitle{Complexity}
+	\begin{itemize}
+		\item \(\mathcal{P}_{AI}\) is \alert{disjunction-free}
+		\item \alert{External sources} have complexity in \(NP\)
+	\end{itemize}
 \end{frame}
 
 \begin{frame}[standout]
