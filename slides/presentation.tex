@@ -175,9 +175,9 @@
 			\begin{tikzpicture}
 				\node[anchor=south west,inner sep=0] at (0,0) {\includegraphics[scale=0.6]{./img/angryhex-agent}};
 				\begin{uncoverenv}<2->
-					\draw[red,ultra thick,rounded corners] (7.1,1.6) -- (8.5,2.4);
-					\draw[red,ultra thick,rounded corners] (7.1,2.4) -- (8.5,1.6);
-					\node[text=red] at (7.8,2.8) {Alpha ASP};	
+					\draw[alerted text.fg,ultra thick,rounded corners] (7.1,1.6) -- (8.5,2.4);
+					\draw[alerted text.fg,ultra thick,rounded corners] (7.1,2.4) -- (8.5,1.6);
+					\node[text=alerted text.fg] at (7.8,2.8) {\Large Alpha};	
 				\end{uncoverenv}
 			\end{tikzpicture}
 			\caption{Agent architecture, from \emph{Angry-HEX: An Artificial Player for Angry Birds Based on Declarative
@@ -239,7 +239,7 @@
 			\bottomrule
 		\end{tabular}
 	\end{center}
-	How to convert external and higher-order atoms to first-order external atoms, using Java objects as interpretation for terms?
+	How to \alert{convert} external and higher-order atoms to first-order external atoms, using Java objects as interpretation for terms?
 \end{frame}
 
 \section{From Complex Predicates to Complex Objects}
@@ -258,36 +258,40 @@
 \end{frame}
 
 \begin{frame}{Encoding Sets using Complex Objects}
-	A \texttt{Set<T> hills = Set.of(a, b, c);}
+	\begin{itemize}[<+->]
+	\item{\texttt{Set<T> hills = Set.of(a, b, c);}
     \begin{align*}
     	hills(o).
     \end{align*}
 
-	where \(o\) is interpreted as the Java object \texttt{hills}.
+	where \(o\) is interpreted as the Java object \texttt{hills}.}
 
-	Quantify over \(hills\):
+
+	\item{Quantify over \(hills\):
 	\begin{align*}
 		obstacles(X) \leftarrow hills(X).
-	\end{align*}
+	\end{align*}}
+	
+	\item{Deconstruct \(hills\):
+	\begin{align*}
+		firstHill(X) \leftarrow hills(H),\ \#head(H,X).
+	\end{align*}}
+	\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Patterns in \ah}
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{frame}[fragile]{Traces in \ah}
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily\small,keywordstyle=\alert]
 for (ComfortInterpretation::iterator c = i.begin();
      c != i.end(); ++c) {
-  if (c->getPredicate() ==
-      objectPredicate.getUnquotedString()) {
+  if (c->getPredicate() == "objects") {
     Object o;
     o.id = c->getArgument(1).intval;
-
     if (c->getArgument(2).getUnquotedString() == "ice")
       o.type = ice;
     else if (c->getArgument(2).getUnquotedString() == "wood")
       o.type = wood;
-\end{lstlisting}
-
-\begin{lstlisting}[language=C++,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-  } else if (c->getPredicate() == hillPredicate.getUnquotedString()) {
+    ...
+  } else if (c->getPredicate() == "hills") {
     // handle polygon objects (hills)
     int id = c->getArgument(1).intval;
     int idx = c->getArgument(2).intval;
@@ -299,7 +303,17 @@ for (ComfortInterpretation::iterator c = i.begin();
 \begin{frame}{Angry-HEX Codebase}
 	\begin{itemize}
 		\item Implementations of external sources in a 2694 SLOCs mess of C++.
-		\item Chaotic Java codebase that interfaces with the \ab Challenge {framework} and DLV-HEX.
+		\item Chaotic Java glue that interfaces with the \ab Challenge {framework} and DLV-HEX.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Pros and Cons of our Modifications}
+	\begin{itemize}[<+->]
+		\item[$+$] Improved interoperability between glue code in Java and ASP system.
+		\item[$+$] Ordinary ASP programs are easier to read and understand.
+		\item[$+$] Alpha uses lazy-grounding (impact not well analyzed).
+		\item[$-$] ASP system not as mature (no optimization, contributions welcome).
+		\item[$-$] Reinvention of DLV-Complex?
 	\end{itemize}
 \end{frame}
 
