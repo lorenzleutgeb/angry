@@ -1,4 +1,4 @@
-\documentclass[smaller, dvipsnames]{beamer}
+\documentclass[smaller,dvipsnames]{beamer}
 
 \usetheme[numbering=fraction,%
           block=fill,%
@@ -9,7 +9,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{color}
+%\usepackage[dvipsnames]{xcolor}
 \usepackage{xspace}
 \usepackage{booktabs}
 \usepackage{amssymb}
@@ -60,14 +60,13 @@
 				{\par\centering\includegraphics<1>[width=4.5cm]{./img/birds-square}\par}
 				\item<2->[] Planning
 				{\par\centering\includegraphics<2>[width=4.5cm]{./img/planning.png}\par}
-				{\par\centering\includegraphics<3>[width=6.5cm]{./img/stone.jpg}\par}
 			\end{itemize}
 		 \end{column}
 		 \begin{column}{0.5\textwidth}
 			\begin{itemize}
-			\item<4->[] Computer Vision
-    		{\par\centering\includegraphics<4>[width=4.5cm]{./img/object-detection}\par}
-    		\item<5->[] Knowledge Representation
+			\item<3->[] Computer Vision
+    		{\par\centering\includegraphics<3>[width=4.5cm]{./img/object-detection}\par}
+    		\item<4->[] Knowledge Representation
   		\end{itemize}
 		 \end{column}
 	 \end{columns}
@@ -140,10 +139,10 @@
 
 \begin{frame}{Higher Order Atoms}
 	Higher order atoms are atoms that have predicate symbols as arguments.
-	\begin{itemize}
-		\item<1->[] \(p(a),p(b),p(c)\) \quad \quad \quad \quad \quad ordinary, unary atoms
-		\item<2->[] \(h(\textcolor{red}{p},I) \leftarrow \textcolor{red}{p}(I).\) \quad \quad \quad \quad \quad higher order atom
-		\item<2->[] \textcolor{red}{first order atom}
+	\begin{itemize}[<+->]
+		\item[] \(p(a),p(b),p(c)\) \quad \quad \quad \quad \quad ordinary, unary atoms
+		\item[] \(h(\alert{p},I) \leftarrow \alert{p}(I).\) \quad \quad \quad \quad \quad higher order atom
+		\item[] \alert{first order atom}
 	\end{itemize}
 \end{frame}
 
@@ -279,6 +278,15 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Angry-HEX Codebase}
+	\begin{itemize}[<+->]
+		\item Implementations of external sources in a 2694 SLOCs mess of C++.
+		\item Chaotic Java glue that interfaces with the \ab Challenge {framework} and DLV-HEX.
+		\item Development spikes every year before the Angry Birds AI Competition.
+		\item Objects relevant for reasoning are inserted into ASP programs as facts.
+	\end{itemize}
+\end{frame}
+
 \begin{frame}[fragile]{Traces in \ah}
 \begin{lstlisting}[language=C++,basicstyle=\ttfamily\small,keywordstyle=\alert]
 for (ComfortInterpretation::iterator c = i.begin();
@@ -288,7 +296,8 @@ for (ComfortInterpretation::iterator c = i.begin();
     o.id = c->getArgument(1).intval;
     if (c->getArgument(2).getUnquotedString() == "ice")
       o.type = ice;
-    else if (c->getArgument(2).getUnquotedString() == "wood")
+    else if (c->getArgument(2).getUnquotedString()
+             == "wood")
       o.type = wood;
     ...
   } else if (c->getPredicate() == "hills") {
@@ -300,18 +309,22 @@ for (ComfortInterpretation::iterator c = i.begin();
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}{Angry-HEX Codebase}
-	\begin{itemize}
-		\item Implementations of external sources in a 2694 SLOCs mess of C++.
-		\item Chaotic Java glue that interfaces with the \ab Challenge {framework} and DLV-HEX.
-	\end{itemize}
+\begin{frame}{Implementation of External Sources}
+	Evaluation of the rule
+	    $$ canPush(A,B) \leftarrow world(W), \textcolor{ForestGreen}{\&}\alert{canPush}\textcolor{Fuchsia}{[}\textcolor{blue}{W}\textcolor{Fuchsia}{]}\textcolor{Red}{(A,B)} \label{main:rule-3} $$
+	    
+	where \(W\) contains the state of the world to be reasoned about will invoke the Java method
+
+    \texttt{\hspace{3mm}\textcolor{ForestGreen}{@Predicate}\\\hspace{3mm}Set<\textcolor{Red}{List<ConstantTerm>}\-> \alert{canPush}\textcolor{Fuchsia}{(}ASPWorld \textcolor{blue}{aspWorld}\textcolor{Fuchsia}{)}}
+    
+    Note that types are preserved: Throws if instance of \(W\) is not an \texttt{ASPWorld})!
 \end{frame}
 
 \begin{frame}{Pros and Cons of our Modifications}
 	\begin{itemize}[<+->]
 		\item[$+$] Improved interoperability between glue code in Java and ASP system.
-		\item[$+$] Ordinary ASP programs are easier to read and understand.
-		\item[$+$] Alpha uses lazy-grounding (impact not well analyzed).
+		\item[$+$] Ordinary ASP programs are easier to read and understand than higher-order programs.
+		\item[$+$] Alpha uses lazy-grounding (maybe beneficial in the future).
 		\item[$-$] ASP system not as mature (no optimization, contributions welcome).
 		\item[$-$] Reinvention of DLV-Complex?
 	\end{itemize}
