@@ -19,6 +19,8 @@
 \usesmartdiagramlibrary{additions} % required in the preamble
 \usepackage{listings}
 
+\newcommand{\myplus}{\textcolor{ForestGreen}{\textbf{+}}}
+\newcommand{\myminus}{\textcolor{red}{\textbf{$-$}}}
 \newcommand{\ah}{Angry-HEX\xspace}
 \newcommand{\ab}{Angry Birds\xspace}
 \newcommand{\abc}{Angry Birds AI Competition\xspace}
@@ -334,11 +336,11 @@ for (ComfortInterpretation::iterator c = i.begin();
 
 \begin{frame}{Pros and Cons of our Modifications}
 	\begin{itemize}[<+->]
-		\item[$+$] Improved interoperability between glue code in Java and ASP system.
-		\item[$+$] Ordinary ASP programs are easier to read and understand than higher-order programs.
-		\item[$+$] Alpha uses lazy-grounding (maybe beneficial in the future).
-		\item[$-$] ASP system not as mature (no optimization, contributions welcome).
-		\item[$-$] Reinvention of DLV-Complex?
+		\item[\myplus] Improved interoperability between glue code in Java and ASP system.
+		\item[\myplus] Ordinary ASP programs are easier to read and understand than higher-order programs.
+		\item[\myplus] Alpha uses lazy-grounding (maybe beneficial in the future).
+		\item[\myminus] ASP system not as mature (no optimization, contributions welcome).
+		\item[\myminus] Reinvention of DLV-Complex?
 	\end{itemize}
 \end{frame}
 
