@@ -17,6 +17,7 @@
 \usetikzlibrary{arrows} % required in the preamble
 \usepackage{smartdiagram}
 \usesmartdiagramlibrary{additions} % required in the preamble
+\usepackage{listings}
 
 \newcommand{\ah}{Angry-HEX\xspace}
 \newcommand{\ab}{Angry Birds\xspace}
@@ -71,7 +72,9 @@
 	 \end{columns}
 \end{frame}
 
-\begin{frame}{Our Motivation}
+\subsection{Motivation}
+
+\begin{frame}{Motivation}
 	\begin{itemize}
 		\item Find an existing, interesting agent based on logic programming (ASP). Angry-HEX
 		\item Understand how it works.
@@ -81,12 +84,14 @@
 	\end{itemize}
 \end{frame}
 
-\subsection{ASP and HEX-programs}
+\section{Preliminaries}
+
+\subsection{Answer Set Programming}
 
 \begin{frame}{Declarative Programming}
  	\begin{center}
  	\begin{itemize}
-	\item<1->[] \begin{center} \colorbox{Gray}{\color{white}{ALGORITHM = LOGIC + CONTROL}} \end{center}
+	\item<1->[] \begin{center} {\large{ALGORITHM = LOGIC + CONTROL}} \end{center}
 		\begin{align*}
 			&append ([\:], X, X). \\
 			&append ([X|Y], Z, [X|T ]) \leftarrow append (Y, Z, T ). \\
@@ -99,7 +104,6 @@
 		\end{align*}
 	\end{itemize}	
 	\end{center}
- 
 \end{frame}
 
 \begin{frame}{Stable Model Semantics}
@@ -111,7 +115,7 @@
 		\end{align*}
     \end{center}
     \begin{itemize}
-    	\item<2->[] models which reflects natural intuition
+    	\item<2->[] Models that reflect natural intuition.
     	\item<3->[]
     		\begin{align*}
 				&\only<4>{\textcolor{red}}{ M_1= \{pig((88,34)), easy\_target((88,34))\}  } \\
@@ -121,48 +125,44 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Stable model semantics}
-	\begin{center} \colorbox{Gray}{\color{white}{\large{Gelfond Lifschitz Reduct}}} \end{center}
+\begin{frame}{Stable Model Semantics}
+	\begin{center} {\large{Gelfond Lifschitz Reduct}} \end{center}
 	Given a program \(P\) and an interpretation \(M\), its \emph{reduct} \(P^M\) is the program reduced obtained by 
 	\begin{enumerate}
 		\item removing rules with \(\text{not } a\) in the body for each \(a \in M\)
-		\item emoving literals \(\text{not } a\) from all other rules.
+		\item removing literals \(\text{not } a\) from all other rules.
 	\end{enumerate}	  
 	We say that \(M\) is a stable model if the least model of \(P^M\) coincides with \(M\).
 \end{frame}
 
-\begin{frame}
-	\frametitle{Higher order atoms}
-	Higher order atoms are atoms that have as argument predicate symbols.
+\subsection{HEX-Programs}
+
+\begin{frame}{Higher Order Atoms}
+	Higher order atoms are atoms that have predicate symbols as arguments.
 	\begin{itemize}
-		\item<1->[] \(p(a),p(b),p(c)\) \quad \quad \quad \quad \quad unary atoms
+		\item<1->[] \(p(a),p(b),p(c)\) \quad \quad \quad \quad \quad ordinary, unary atoms
 		\item<2->[] \(h(\textcolor{red}{p},I) \leftarrow \textcolor{red}{p}(I).\) \quad \quad \quad \quad \quad higher order atom
 		\item<2->[] \textcolor{red}{first order atom}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{External Atoms}
-    \begin{itemize}
-    	\item<1-> They allow bidirectional communication with external sources
-    	\item<2->[] \[ \&g[q_1,\dots,q_k](t_1,\dots,t_l) \]
-    	\item<3-> Example: we want to use an arbitrary computable function that access an rdf file from the web
-    	\item<4->[] \[ \&rdf[url](X,Y,Z) \]
-    	\item<5->[] 
+    \begin{itemize}[<+->]
+    	\item They allow bidirectional communication with external sources: \[ \&g[q_1,\dots,q_k](t_1,\dots,t_l) \]
+    	\item For example, use an arbitrary computable function to access an RDF file from the web: \[ \&rdf[url](X,Y,Z) \]
+    	\item Returned result can be used as usual:
     		\begin{align*}
-				bel(X,Y,Z) \leftarrow \&rdf[url](X,Y,Z)
+				analyze(X,Y,Z) \leftarrow \&rdf[url](X,Y,Z)
     		\end{align*}
-    	\item<6-> used for numeric computation (physics)
+    	\item Can be used for numeric computation (physics, e.g.~trajectories).
     \end{itemize}
 \end{frame}
 
 \begin{frame}{HEX-programs}
-    \begin{itemize}
-    	\item<1-> Generalization of disjunctive extended logic programs under the answer set semantics.
-    	\item<2-> Rules
-    	\item<2->[] \[ a_1, \lor \dots \lor a_n \leftarrow b_1, \dots , b_m, \neg b_{m+1}, \dots, b_n \; (m,n \geq 0)\]
-    	\item<3-> External atoms
-    	\item<3->[] \[ \&g[q_1,\dots,q_k](t_1,\dots,t_l) \]
+    \begin{itemize}[<+->]
+    	\item Generalization of disjunctive extended logic programs under the answer set semantics.
+    	\item External atoms \[ \&g[q_1,\dots,q_k](t_1,\dots,t_l) \]
+    	\item Rules \[ a_1 \lor \dots \lor a_k \leftarrow b_1, \dots , b_n, \text{not } b_{n+1}, \dots, \text{not } b_m \quad (k,m,n \geq 0)\] where \(b_1, \dots, b_m\) may be (higher-order) external atoms and \(a_1, \ldots a_k\) may be higher-order but not external atoms. 
     \end{itemize}
 \end{frame}
 
@@ -210,8 +210,7 @@
 \(\mathcal{P}_{AI}\) denotes the collection of HEX-programs used by \ah
 \end{frame}
 
-\begin{frame}
-	\frametitle{Interaction with HEX-programs: Strategy}
+\begin{frame}{Interaction with HEX-programs: Strategy}
 	The agent plays levels, according to this policy
 	\begin{enumerate}
 		\item Play each level once
@@ -220,18 +219,21 @@
 	\end{enumerate}
 \end{frame}
 
-\begin{frame}
-	\frametitle{DLV-HEX vs.\ \al}
+\begin{frame}{DLV-HEX vs.\ \al}
 	\begin{center}
 		\begin{tabular}{lcc}
 			\toprule
-			& DLV-HEX & \al \\
+			& \textbf{DLV-HEX} & \textbf{\al} \\
 			\midrule
-			Constant terms & \checkmark & \checkmark \\
-			Natural numbers & \checkmark & \checkmark \\
-			Strings & \checkmark & \checkmark \\
-			HEX-programs & \checkmark & \\
-			Java objs. interpretation & & \checkmark \\
+			\alert{Term Interpretation} & & \\
+			~~~Constants & \checkmark & \checkmark \\
+			~~~Natural Numbers & \checkmark & \checkmark \\
+			~~~Quoted Strings & \checkmark & \checkmark \\
+			~~~Java Objects & & \checkmark \\
+			\midrule
+			\alert{HEX-Programs} & & \\
+			~~~Higher Order Atoms & \checkmark & \\
+			~~~External Atoms & \checkmark & \checkmark \\
 			\bottomrule
 		\end{tabular}
 	\end{center}
@@ -241,28 +243,62 @@
 \section{From Complex Predicates to Complex Objects}
 
 \begin{frame}{Encoding Sets using Complex Predicates}
-	A set \(s = \{ a, b, c \}\):
+	A set \(hills = \{ a, b, c \}\):
     \begin{align*}
-    	s(a). s(b). s(c) \\
+    	hills(a).~~hills(b).~~hills(c). \\
     \end{align*}
 
-	Quantify over \(s\):
+	Quantify over \(hills\):
 	\begin{align*}
-		r(q,s).
+		r(obstacles,hills). \\
 		Z(X) \leftarrow r(Z,Y), Y(X).
 	\end{align*}
 \end{frame}
 
 \begin{frame}{Encoding Sets using Complex Objects}
-	A set \(s = \{ a, b, c \}\):
+	A \texttt{Set<T> hills = Set.of(a, b, c);}
     \begin{align*}
-    	s(\{a, b, c\}).
+    	hills(o).
     \end{align*}
 
-	Quantify over \(s\):
+	where \(o\) is interpreted as the Java object \texttt{hills}.
+
+	Quantify over \(hills\):
 	\begin{align*}
-		q(X) \leftarrow s(X).
+		obstacles(X) \leftarrow hills(X).
 	\end{align*}
+\end{frame}
+
+\begin{frame}[fragile]{Patterns in \ah}
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+for (ComfortInterpretation::iterator c = i.begin();
+     c != i.end(); ++c) {
+  if (c->getPredicate() ==
+      objectPredicate.getUnquotedString()) {
+    Object o;
+    o.id = c->getArgument(1).intval;
+
+    if (c->getArgument(2).getUnquotedString() == "ice")
+      o.type = ice;
+    else if (c->getArgument(2).getUnquotedString() == "wood")
+      o.type = wood;
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+  } else if (c->getPredicate() == hillPredicate.getUnquotedString()) {
+    // handle polygon objects (hills)
+    int id = c->getArgument(1).intval;
+    int idx = c->getArgument(2).intval;
+    int x = c->getArgument(3).intval;
+    int y = c->getArgument(4).intval;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Angry-HEX Codebase}
+	\begin{itemize}
+		\item Implementations of external sources in a 2694 SLOCs mess of C++.
+		\item Chaotic Java codebase that interfaces with the \ab Challenge {framework} and DLV-HEX.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -271,6 +307,10 @@
 		\item \(\mathcal{P}_{AI}\) is \alert{disjunction-free}
 		\item \alert{External sources} have complexity in \(NP\)
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Recap}
+    \tableofcontents
 \end{frame}
 
 \begin{frame}[standout]
