@@ -55,21 +55,21 @@
 
 \begin{frame}{Challenges for AI}
 	 \begin{columns}
-		 \begin{column}{0.5\textwidth}
-			\begin{itemize}
-				\item<1->[] Physics
-				{\par\centering\includegraphics<1>[width=4.5cm]{./img/birds-square}\par}
-				\item<2->[] Planning
-				{\par\centering\includegraphics<2>[width=4.5cm]{./img/planning.png}\par}
-				{\par\centering\includegraphics<3>[width=6.5cm]{./img/stone.jpg}\par}
-			\end{itemize}
+		 \begin{column}{0.35\textwidth}
+			\begin{enumerate}
+				\item<1-> \alert<1>{Physics}
+				\item<2-> \alert<2-3>{Planning}
+				\item<4-> \alert<4>{Computer Vision}
+				\item<5-> \alert<5>{Knowledge Representation}
+			\end{enumerate}
 		 \end{column}
-		 \begin{column}{0.5\textwidth}
-			\begin{itemize}
-			\item<4->[] Computer Vision
-    		{\par\centering\includegraphics<4>[width=4.5cm]{./img/object-detection}\par}
-    		\item<5->[] Knowledge Representation
-  		\end{itemize}
+		 \begin{column}{0.65\textwidth}
+			\begin{center}
+			\only<1>{\includegraphics[width=4.5cm]{./img/birds-square}}
+			\only<2>{\includegraphics[width=4.5cm]{./img/planning.png}}
+			\only<3>{\includegraphics[width=6.5cm]{./img/stone.jpg}}
+			\only<4>{\includegraphics[width=4.5cm]{./img/object-detection}}
+			\end{center}
 		 \end{column}
 	 \end{columns}
 \end{frame}
@@ -144,7 +144,7 @@
 	\begin{itemize}[<+->]
 		\item[] \(p(a),p(b),p(c)\) \quad \quad \quad \quad \quad ordinary, unary atoms
 		\item[] \(h(\alert{p},I) \leftarrow \alert{p}(I).\) \quad \quad \quad \quad \quad higher order atom
-		\item[] \alert{first order atom}
+		\item[] \alert{predicate}
 	\end{itemize}
 \end{frame}
 
