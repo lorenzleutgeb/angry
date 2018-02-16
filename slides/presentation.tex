@@ -212,11 +212,12 @@
 \end{frame}
 
 \begin{frame}{Interaction with HEX-programs: Strategy}
-	The agent plays levels, according to this policy
+	The agent plays levels, according to this \alert{strategy}:
 	\begin{enumerate}
 		\item Play each level once
-		\item Play those levels which score differs the most from best score
+		\item Play those levels where \ah score differs the most from best overall score
 		\item Play levels in which \ah played best and difference to 2nd best score is minimal
+		\item To break ties, play random levels
 	\end{enumerate}
 \end{frame}
 
@@ -306,8 +307,11 @@ for (ComfortInterpretation::iterator c = i.begin();
 	\frametitle{Complexity}
 	\begin{itemize}
 		\item \(\mathcal{P}_{AI}\) is \alert{disjunction-free}
-		\item \alert{External sources} have complexity in \(NP\)
+		\item We assume that \alert{external sources} have complexity in \(NP\) (no formal proofs at the moment)
+		\item Thus, the \alert{complexity} of the reasoning process is \textsc{NExpTime}\textsuperscript{\textsc{NP}}
 	\end{itemize}
+	This theoretical result comes from \emph{A Uniform Integration of Higher-Order Reasoning and External Evaluations
+	in Answer-Set Programming}, Eiter, Ianni, Schindlauer \& Tompits, 2005.
 \end{frame}
 
 \begin{frame}{Recap}
